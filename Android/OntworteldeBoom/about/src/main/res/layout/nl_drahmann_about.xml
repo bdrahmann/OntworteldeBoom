@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scrollview
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ca_tutortutor_aboutView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <linearlayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="5dp">
+
+        <textview
+            android:id="@+id/nl_drahmann_aboutText"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+        </textview>
+
+    </linearlayout>
+
+</scrollview>
