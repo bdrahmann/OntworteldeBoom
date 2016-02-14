@@ -15,6 +15,8 @@
 ** versie 02.2	verwerksensoren aangepast om kapotte sensor vast te stellen
 ** versie ontwortelde boom:
 ** vaste gegevens opslaan in EPROM en doorsturen naar Android
+** versie 0.3
+** SMS gegevens nu zichtbaar in Android app
 ** 
 **
 **
@@ -44,7 +46,6 @@ String SMScode10 = "Pomp 1 van ontwortelde boom is uitgeschakeld!";
 String SMScode11 = "Pomp 2 van ontwortelde boom is uitgeschakeld!";
 String SMScode12 = "Testbericht Ontwortelde boom";
 String SMScode13 = "Alle sensoren van ontwortelde boom zijn stuk!";
-
 
 #define LOG_T_INTERVAL  60000 // Temp/Hum interval 60 sec
 #define LOG_L_INTERVAL  30000  // Light interval 30 sec
@@ -153,9 +154,9 @@ int Drooglevel2 = 0;
 int Drooglevel3 = 0;
 
 boolean Droog = true;			// variable om droog vast te stellen
-uint32_t Droogtijd = 0;		// tijd om druppelsensoren nat te laten worden; van buiten instelbaar (20000)
+uint32_t Droogtijd = 0;			// tijd om druppelsensoren nat te laten worden; van buiten instelbaar (20000)
 uint32_t DroogtijdLL = 0;		// loopt tijdens het testen van de Droogtijd
-int Druppelspeling = 0;		// toegestane verschil rond het gemiddelde (5). Via BT instelbaar
+int Druppelspeling = 0;			// toegestane verschil rond het gemiddelde (5). Via BT instelbaar
 
 // Global variable for SMS yes or no
 char SMScode = '0';			//stuur sms bij alarmsituaties, default uit
