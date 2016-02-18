@@ -23,6 +23,10 @@
 	x = beschikbaar
 	y = opnieuw zenden bepaalde gegevens bij oa opstart Android app
 	z = reset Arduino.
+
+		Return 26: Arduino send alle vaste gegevens
+	    Return 29: Arduino stuurt de status van de vlotter delay door
+		Return 30: Arduino stuurt de status van de sensor delay door
 	
 	
 	
@@ -165,33 +169,10 @@ void ReactieOpa(char SMSkode){	// geef SMScode door aan Android
 	EEPROM.write(0, SMScode);	// en schrijf in EPROM
 }
 
-void ReactieOps() {  // lees error array SDAction uit
-  String tydelijk = filename;
-  if (SDActionS) Serial3.print(F("06card initialized#"));
-  else Serial3.print(F("06Card failed, or not present#"));
-  delay(20);
-  if (SDActionF) {
-    tydelijk = "07" + tydelijk + "#";
-    Serial3.print(tydelijk);
-  }
-  else {
-    Serial3.print(F("07couldnt create file#"));
-  }
-  delay(20);
-}  // einde reactieOps
 
 
-void ReactieOpr() {		// geeft Vlotterstand door
-	if (VlotterWaarde == HIGH) {
-		Serial3.print("02L#");
-		delay(20);
-	}
-	else {
-		Serial3.print("02H#");
-		delay(20);
-	}
-	
-  } // einde ReactieOpr
+
+
 
 
 void ReactieOph() { //stuur de humidity en temperatuur door naar de smartphone
@@ -252,40 +233,8 @@ void ReactieOpe() { //stuur de gemiddelde rain sensorwaarden door naar de smartp
 	delay(20);
 }    // einde ReactieOpe
 
-void ReactieOpn() { //stuur de droog kode van sensorwaarden door naar de smartphone
-	String tydelijk;
-	
-	if (Rain1_stuk) tydelijk = "sensor stuk?";
-		else if (Rain1 < Drooglevel1) tydelijk = "Droog";
-			else tydelijk = "nat";
-	tydelijk = "23" + String(tydelijk) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	
-	if (Rain2_stuk) tydelijk = "sensor stuk?";
-	else if (Rain2 < Drooglevel2) tydelijk = "Droog";
-	else tydelijk = "nat";
-	tydelijk = "24" + String(tydelijk) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	
-	if (Rain3_stuk) tydelijk = "sensor stuk?";
-	else if (Rain3 < Drooglevel3) tydelijk = "Droog";
-	else tydelijk = "nat";
-	tydelijk = "25" + String(tydelijk) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	
-}    // einde ReactieOpn
 
-void ReactieOpt(String telnummer) {  // lees telefoonnummer uit en sla op
-	String tydelijk = "14" + telnummer + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	for (int i = 1; i < 11; i = i + 1) {
-		EEPROM.write(i, telnummer.charAt(i - 1));
-	}
-}
+
 
 void ReactieOpk(String prefinfo) {	// lees de Arduino settings uit. Meerdere settings in info. En sla op in EPROM
 	int b = 0;	// beginpositie in string
@@ -367,13 +316,7 @@ void SchrijfEprom(int b, int e, String info) {		// schrijf de info in de EPROM
 	}
 }
 
-void Sendkode26() {
-	// alle vaste gegevens naar Android sturen
-	String tydelijk = "26" + String(Drooglevel1) + "$" + String(Drooglevel2) + "$" + String(Drooglevel3) + "$" +
-		String(Droogtijd / 1000) + "$" + String(Druppelspeling) + "$" + String(ra) + "$" + String(laagwater_delay / 1000) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-}
+
 
 void ReactieOpf() {  // geef de files op de SD card door aan Android
   // tijdens deze actie worden er geen metingen verricht!!!
@@ -447,49 +390,11 @@ void ReactieOpg(String bestand){
 	
 }
 
-void ReactieOpq(String bestand){  // delete de file 'bestand' van SD card
-	int L = bestand.length()+1;
-	char in;
-	char fileNameCharArray[L];
-	bestand.toCharArray(fileNameCharArray, L);
-	if (SD.exists(fileNameCharArray)) {
-		SD.remove(fileNameCharArray);
-		Serial.print("File: ");
-		Serial.print(bestand);
-		Serial.println(" deleted.");
-		Serial3.print("13");
-		Serial3.print(bestand);
-		Serial3.print(" deleted#");
-	}
-	else {
-		Serial.print("File: ");
-		Serial.print(bestand);
-		Serial.println(" bestaat niet.");
-		Serial3.print("13");
-		Serial3.print(bestand);
-		Serial3.print(" bestaat niet.#");
-	}
-}
 
-void ReactieOpu(){		// stuur PompStatus. Return: "15" met PompStatus
-	if (PompStatus == 4) ReactieOpv();	// stuur dan eerst het Pompnummer op
-		
-	String tydelijk;	
-	tydelijk = "15" + String(PompStatus) + "#";
-	Serial3.print(tydelijk);
-	delay(20);	
-	
-	//Serial.print("Pompstatus verzonden = ");
-	//Serial.println(PompStatus);
-}
 
-void ReactieOpv() {		// stuur Pompnummer. Return: "16" met Pompnummer.
-	String tydelijk;
-	tydelijk = "16" + String(Pig-8) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	
-}
+
+
+
 
 void ReactieOpm() {		// stuur tijd
 	now = RTC.now();  // fetch the time
@@ -499,6 +404,33 @@ void ReactieOpm() {		// stuur tijd
 	
 }
 
+void ReactieOpn() { //stuur de droog kode van sensorwaarden door naar de smartphone
+	String tydelijk;
+
+	if (Rain1_stuk) tydelijk = "sensor stuk?";
+	else if (Rain1 < Drooglevel1) tydelijk = "Droog";
+	else tydelijk = "nat";
+	tydelijk = "23" + String(tydelijk) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+
+	if (Rain2_stuk) tydelijk = "sensor stuk?";
+	else if (Rain2 < Drooglevel2) tydelijk = "Droog";
+	else tydelijk = "nat";
+	tydelijk = "24" + String(tydelijk) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+
+	if (Rain3_stuk) tydelijk = "sensor stuk?";
+	else if (Rain3 < Drooglevel3) tydelijk = "Droog";
+	else tydelijk = "nat";
+	tydelijk = "25" + String(tydelijk) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+
+}    // einde ReactieOpn
+
+
 void ReactieOpo() {		// stuur datum
 	now = RTC.now();  // fetch the time
 	String tydelijk = "03" + String(now.day()) + ":" + String(now.month()) + ":" + String(now.year()) + "#";
@@ -506,11 +438,129 @@ void ReactieOpo() {		// stuur datum
 	delay(20);
 }	
 
+void ReactieOpq(String bestand) {  // delete de file 'bestand' van SD card
+	int L = bestand.length() + 1;
+	char in;
+	char fileNameCharArray[L];
+	bestand.toCharArray(fileNameCharArray, L);
+	if (bestand.equals(filename)) {
+		Serial.print("File: ");
+		Serial.print(bestand);
+		Serial.println(" is in gebruik.");
+		Serial3.print("13");
+		Serial3.print(bestand);
+		Serial3.print(" is in gebruik.#");
+	}
+	else 
+		if (SD.exists(fileNameCharArray)) {
+			SD.remove(fileNameCharArray);
+			Serial.print("File: ");
+			Serial.print(bestand);
+			Serial.println(" deleted.");
+			Serial3.print("13");
+			Serial3.print(bestand);
+			Serial3.print(" deleted#");
+		}
+		else {
+			Serial.print("File: ");
+			Serial.print(bestand);
+			Serial.println(" bestaat niet.");
+			Serial3.print("13");
+			Serial3.print(bestand);
+			Serial3.print(" bestaat niet.#");
+		}
+}
+
+void ReactieOpr() {		// geeft Vlotterstand door
+	if (VlotterWaarde == HIGH) {
+		Serial3.print("02L#");
+		delay(20);
+	}
+	else {
+		Serial3.print("02H#");
+		delay(20);
+	}
+
+} // einde ReactieOpr
+
+void ReactieOps() {  // lees error array SDAction uit
+	String tydelijk = filename;
+	if (SDActionS) Serial3.print(F("06card initialized#"));
+	else Serial3.print(F("06Card failed, or not present#"));
+	delay(20);
+	if (SDActionF) {
+		tydelijk = "07" + tydelijk + "#";
+		Serial3.print(tydelijk);
+	}
+	else {
+		Serial3.print(F("07couldnt create file#"));
+	}
+	delay(20);
+}  // einde reactieOps
+
+void ReactieOpt(String telnummer) {  // lees telefoonnummer uit en sla op
+	String tydelijk = "14" + telnummer + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+	for (int i = 1; i < 11; i = i + 1) {
+		EEPROM.write(i, telnummer.charAt(i - 1));
+	}
+}
+
+void ReactieOpu() {		// stuur PompStatus. Return: "15" met PompStatus
+	if (PompStatus == 4) ReactieOpv();	// stuur dan eerst het Pompnummer op
+
+	String tydelijk;
+	tydelijk = "15" + String(PompStatus) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+
+	//Serial.print("Pompstatus verzonden = ");
+	//Serial.println(PompStatus);
+}
+
+void ReactieOpv() {		// stuur Pompnummer. Return: "16" met Pompnummer.
+	String tydelijk;
+	tydelijk = "16" + String(Pig - 8) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+
+}
+
 void ReactieOpy() {		// stuur bepaalde berichten opnieuw
 	ReactieOpa(SMScode);
 	ReactieOpt(telefoonnummer);
+	ReactieOpu();	// pompstatus
+	ReactieOpv();	// pompnummer
 	ReactieOpo();	// stuur de datum op
 	ReactieOpr();	// stuur vlotterstatus op
 	Sendkode26();	// stuur de vaste gegevens
 
+}
+
+void Sendkode26() {	// alle vaste gegevens naar Android sturen
+	String tydelijk = "26" + String(Drooglevel1) + "$" + String(Drooglevel2) + "$" + String(Drooglevel3) + "$" +
+		String(Droogtijd / 1000) + "$" + String(Druppelspeling) + "$" + String(ra) + "$" + String(laagwater_delay / 1000) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+}
+
+void Sendkode29(uint32_t status, int max) { // stuur de delaystatus op
+	Serial.print("status en max = ");
+	Serial.print(status);
+	Serial.println(max);
+	String s = String(status / 1000);
+	String m = String(max / 1000);
+	Serial3.print("29" + s + "$" + m + "#");
+	delay(20);
+}
+
+void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op
+	Serial.print("status en max = ");
+	Serial.print(status);
+	Serial.println(max);
+	String s = String(status / 1000);
+	String m = String(max / 1000);
+	Serial3.print("30" + s + "$" + m + "#");
+	delay(20);
 }

@@ -27,9 +27,11 @@ void DuoPompRegeling() {
 			}
 			break;
 		case 3:	// de timer loopt
+			Sendkode30((millis() - DroogtijdLL), Droogtijd);	// stuur de status
 			if ((millis() - DroogtijdLL) > Droogtijd) PompStatus = 4;
 			if (sw_laagwater == true) {
 				PompStatus = 1; // een status terug
+				Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
 			}
 			break;
 		case 4:	// de normale status met een draaiende pomp

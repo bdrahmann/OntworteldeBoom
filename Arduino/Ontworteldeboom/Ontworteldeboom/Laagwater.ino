@@ -10,9 +10,11 @@
 void LaagWater() {
 	// Serial.print("digitalRead(VlotterLaag) = ");
 	// Serial.println(digitalRead(VlotterLaag));
+	
 	if (sw_laagwater == true){	// er was te weinig water in de bak
 		if (digitalRead(VlotterLaag) == HIGH) {	// en er is nog steeds te weinig water
 			looptijdLL = 0;	// zet de denderlooptijd weer op 0
+			Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "vol" om progressbar uit te zetten
 			// en doe verder niks
 		}
 		else {	// de vlotter geeft voldoende water aan
@@ -27,13 +29,14 @@ void LaagWater() {
 				{
 					// do nothing
 				}
-				
 			}
+			Sendkode29((millis() - looptijdLL), laagwater_delay);	// stuur de status
 		}
 	}
 	else {	// sw_laagwater = false. Er was dus voldoende water
 		if (digitalRead(VlotterLaag) == LOW) {	// en er is nog steeds voldoende water
 			looptijdLL = 0;	// zet de denderlooptijd weer op 0
+			Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "vol" om progressbar uit te zetten
 			// en doe verder niks
 		}
 		else {	// de vlotter geeft onvoldoende water aan
@@ -49,8 +52,8 @@ void LaagWater() {
 				{
 					// do nothing
 				}
-				
 			}
+			Sendkode29((millis() - looptijdLL), laagwater_delay);	// stuur de status
 		}
 	}
 }

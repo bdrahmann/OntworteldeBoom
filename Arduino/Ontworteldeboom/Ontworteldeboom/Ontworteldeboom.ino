@@ -17,6 +17,9 @@
 ** vaste gegevens opslaan in EPROM en doorsturen naar Android
 ** versie 0.3
 ** SMS gegevens nu zichtbaar in Android app
+** Testsignaal aangepast: nu slechts één melding per dag
+** In Laagwater.ino wordt info verzonden om de voortgang van de delay in Android te tonen
+** In DuoPompRegeling wordt info verzonden om sensordelay in Android te tonen
 ** 
 **
 **
@@ -161,6 +164,7 @@ int Druppelspeling = 0;			// toegestane verschil rond het gemiddelde (5). Via BT
 // Global variable for SMS yes or no
 char SMScode = '0';			//stuur sms bij alarmsituaties, default uit
 String telefoonnummer = "";
+boolean bericht_gestuurd = false;	// om te voorkomen dat sms testbericht meer dan één per minuut gestuurd wordt
 const int Simpower = 7;		// voor de sim900 kaart Shield B-v1.1
 // const int Simpower = 9;  // voor de "oude" Sim900 kaart
 
@@ -243,37 +247,35 @@ void setup() {
 	int Samples = LeesEprom(31, 34).toInt();	// TODO later kijken of dit wel kan
 	laagwater_delay = LeesEprom(35, 38).toInt()*1000;
 
+
 	//Serial.println(Drooglevel1);
 	//StuurBericht("12");	// ter test
 
 	ReactieOpy();	// stuur bepaalde berichten opnieuw
+	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "vol" om progressbar uit te zetten
+	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
 
 	
 }  // einde Setup
 
 void loop() {
 
-	//Serial.println("Start PompRegeling");
-	// PompRegeling();		// regelt de pompen aan/uit
 	DuoPompRegeling();	// regelt met twee pompen
-						//Serial.println("Start LeesHum");
+						
 	LeesHumTemp();     // lees Humidity en temperatuur
-					   //Serial.println("Start LeesLight");
+					   
 	LeesLight();       // lees de lichtopbrengst
-					   //Serial.println("Start LeesRaindrop");
+					   
 	LeesRaindropSensor();	// Lees de raindrop sensoren
+
 	ControleerSensoren();
-	//Serial.println("Start Laagwatersignaal");
+	
 	LaagWater();	// routine om de laagwatervlotter uit te lezen
-					//LaagWaterSignaal();// Stuurt SMS als waterniveau kritisch laag is
-					//Serial.println("Start TestSignaal");
+					
 	TestSignaal();     // Stuurt een teken van leven naar SMS
-					   //Serial.println("Start Einde Loop");
-					   //Serial.print("in loop: ");
-					   //Serial.println(freeRam());  //test op vrij geheugen SRAM
-					   //Serial.println("Start ReadBT");
+					   
 	ReadBT();		// Lees de BlueTooth input
-					// Serial.println("Start SendBT");
+					
 	SendBT();		// Zend info naar Android toestel	
 
 }  //einde loop
@@ -283,8 +285,12 @@ void TestSignaal() {    // Stuurt een teken van leven naar SMS
 						// stuur iedere dag om 12:00 uur een Testbericht
 
 	if (now.hour() == 12 && now.minute() == 00) {
-		StuurBericht("12");
+		if (!bericht_gestuurd) {
+			StuurBericht("12");
+			bericht_gestuurd = true;
+		}
 	}
+	else bericht_gestuurd = false;
 
 }  // einde TestSignaal
 
