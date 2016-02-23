@@ -116,20 +116,7 @@ void ControleerSensoren(){
 			FoutTeller2 = 0;
 			FoutTeller3 = 0;
 		}
-	/*
-	Serial.print("Teller = ");
-	Serial.println(Teller);
-	Serial.print("FoutTeller1 = ");
-	Serial.print(FoutTeller1);
 	
-	Serial.print("FoutTeller2 = ");
-	Serial.print(FoutTeller2);
-	
-	Serial.print("FoutTeller3 = ");
-	Serial.print(FoutTeller3);
-	
-	*/
-
 		Serial.print(" Rain1_stuk = ");
 		Serial.println(Rain1_stuk);
 		Serial.print(" Rain2_stuk = ");

@@ -1,5 +1,3 @@
-
-
 /* Ontwortelde Boom
 ** versie 0.3
 ** 
