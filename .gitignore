@@ -47,3 +47,5 @@ Temporary Items
 .apdisk
 /Arduino/Ontworteldeboom/Ontworteldeboom/Debug/*.hex
 /Arduino/Ontworteldeboom/Ontworteldeboom/Debug/*.elf
+/Arduino/Ontworteldeboom/Ontworteldeboom/Debug/*.buildinfo
+/Arduino/Ontworteldeboom/.vs/Ontworteldeboom/v14/*.suo
