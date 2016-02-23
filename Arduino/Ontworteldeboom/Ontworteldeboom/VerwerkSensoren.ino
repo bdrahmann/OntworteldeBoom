@@ -31,7 +31,7 @@ void LeesRaindropSensor() {    // lees de Raindropsensoren
 			else {		// alle sensoren zijn stuk
 				PompStatus = 8;		// zet de pompcyclus stop
 				if (Rain_SMS_Gestuurd == false) {
-					StuurBericht("09");	// stuur een alarmerende SMS en stop Arduino
+					StuurBericht("13");	// stuur een alarmerende SMS en stop Arduino
 					Rain_SMS_Gestuurd = true;	
 				}
 				digitalWrite(9,LOW);	// zet pomp 1 uit
@@ -57,7 +57,7 @@ void ControleerSensoren(){
 	// aantal tellingen is bv 20
 	// elke keer dat deze routine benaderd wordt, wordt er één keer gemeten en geteld
 	
-	if(PompStatus == 4) {	// doe dit alleen als de pomp in normaal bedrijf is
+	if((PompStatus == 4) || (PompStatus == 8)) {	// doe dit alleen als de pomp in normaal bedrijf is, of als de Arduino gestopt is
 		
 		int Rain1Verschil = 0;
 		int Rain2Verschil = 0;
@@ -121,18 +121,22 @@ void ControleerSensoren(){
 	Serial.println(Teller);
 	Serial.print("FoutTeller1 = ");
 	Serial.print(FoutTeller1);
-	Serial.print(" Rain1_stuk = ");
-	Serial.println(Rain1_stuk);
+	
 	Serial.print("FoutTeller2 = ");
 	Serial.print(FoutTeller2);
-	Serial.print(" Rain2_stuk = ");
-	Serial.println(Rain2_stuk);
+	
 	Serial.print("FoutTeller3 = ");
 	Serial.print(FoutTeller3);
-	Serial.print(" Rain3_stuk = ");
-	Serial.println(Rain3_stuk
-	*/
 	
+	*/
+
+		Serial.print(" Rain1_stuk = ");
+		Serial.println(Rain1_stuk);
+		Serial.print(" Rain2_stuk = ");
+		Serial.println(Rain2_stuk);
+		Serial.print(" Rain3_stuk = ");
+		Serial.println(Rain3_stuk);
+
 	}	// einde if PompStatus == 4
 	
 }  // einde Controleer Sensoren

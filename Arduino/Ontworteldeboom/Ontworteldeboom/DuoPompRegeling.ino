@@ -59,6 +59,7 @@ void DuoPompRegeling() {
 			break;
 		case 8:	// zet het systeem uit
 			// TODO zet het systeem uit
+			digitalWrite(Pig, LOW);	// zet de PompInGebruik uit
 			break;
 		default: // foutsituatie
 			// TODO geef foutboodschap

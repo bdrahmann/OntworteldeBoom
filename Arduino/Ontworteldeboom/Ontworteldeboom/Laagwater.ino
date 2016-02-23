@@ -14,7 +14,7 @@ void LaagWater() {
 	if (sw_laagwater == true){	// er was te weinig water in de bak
 		if (digitalRead(VlotterLaag) == HIGH) {	// en er is nog steeds te weinig water
 			looptijdLL = 0;	// zet de denderlooptijd weer op 0
-			Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "vol" om progressbar uit te zetten
+			Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 			// en doe verder niks
 		}
 		else {	// de vlotter geeft voldoende water aan
@@ -36,7 +36,7 @@ void LaagWater() {
 	else {	// sw_laagwater = false. Er was dus voldoende water
 		if (digitalRead(VlotterLaag) == LOW) {	// en er is nog steeds voldoende water
 			looptijdLL = 0;	// zet de denderlooptijd weer op 0
-			Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "vol" om progressbar uit te zetten
+			Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 			// en doe verder niks
 		}
 		else {	// de vlotter geeft onvoldoende water aan
@@ -46,6 +46,7 @@ void LaagWater() {
 			else {	// de tijd loopt al
 				if ((millis() - looptijdLL) > laagwater_delay) {	// als de tijd verstreken is
 					sw_laagwater = true;	// er is definitief vastgesteld dat er onvoldoende water in de bak zit
+					Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 					StuurSMS();	// zend een SMS 
 				}
 				else

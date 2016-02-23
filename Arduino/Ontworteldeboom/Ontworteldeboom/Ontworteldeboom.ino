@@ -177,10 +177,9 @@ void setup() {
 
 	laagwateroud = digitalRead(VlotterLaag);	// lees de beginstand van de vlotter
 	
-	Serial1.begin(19200);		// connection to GPRS network
 	Serial.begin(9600);			// output via serial monitor
-	// Serial3.begin(19200);	// Default connection rate for Daans BT module
-	Serial3.begin(9600);		// snelheid BT voor BDR. Kan opgevoerd worden.
+	Serial1.begin(19200);		// connection to GPRS network
+	Serial3.begin(19200);	// Default connection rate 
 	dht.begin();
 
 	// initialiseer de Running Average
@@ -252,7 +251,7 @@ void setup() {
 	//StuurBericht("12");	// ter test
 
 	ReactieOpy();	// stuur bepaalde berichten opnieuw
-	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "vol" om progressbar uit te zetten
+	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
 
 	
@@ -268,7 +267,7 @@ void loop() {
 					   
 	LeesRaindropSensor();	// Lees de raindrop sensoren
 
-	ControleerSensoren();
+	ControleerSensoren();	// controleer of de sensoren in orde zijn
 	
 	LaagWater();	// routine om de laagwatervlotter uit te lezen
 					

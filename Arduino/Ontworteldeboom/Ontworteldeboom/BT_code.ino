@@ -1,14 +1,15 @@
-/* specificatie van Android ontvangen kode
+/* specificatie van van Android ontvangen kode
 	nu aangemaakt in Visual Studio2015
 
 	a = zet SMS code aan. Return 10 met SMScode
 	b = set SMS code uit. Return 10 met SMScode
-	c = test return connectie. Geen Androidinfo. 
+	c = 
 	d = geef de raindrop sensor waarde door. Return: 17,18 of 19 + de sensor waarde.
 	e = geef de gemiddelde raindrop sensor waarde door. Return: 20, 21 en 22 + de sensor waarde.
 	f = geef de files op de SD card door aan Android. Return 11 met de files.
 	g = geef de inhoud van de file door aan Android. Return 12 met de inhoud.
 	h = geef Humidity en temperatuur door. Return 04 met Humidity en 05 met Temperatuur.
+	j = set de opgestuurde datum en tijd in RTC. Return 3 met datum en 8 met tijd.
 	l = geef LUX door. Return 09 met LUX waarde
 	k = lees de Arduino settings uit. Meerdere settings in de info. Return
 	m = stuur de tijd op. Return 8 met tijd.
@@ -20,7 +21,7 @@
 	t = lees telefoonnummer uit. Return 14 met telefoonnummer
 	u = stuur PompStatus. Return: "15" met PompStatus
 	v = stuur Pompnummer. Return: "16" met Pompnummer.
-	x = beschikbaar
+	x = 
 	y = opnieuw zenden bepaalde gegevens bij oa opstart Android app
 	z = reset Arduino.
 
@@ -33,7 +34,7 @@
 	
 */
 
-	boolean VlotterWaarde = false;
+boolean VlotterWaarde = false;
 	
 void ReadBT() {          // Lees de BlueTooth input. en einde = #
 	
@@ -91,6 +92,11 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
     if (s == 'h') {
       ReactieOph();  // geef de humidity en temperatuur door aan de smartphone
     }
+
+	if (s == 'j') {
+		ReactieOpj(Androidinfo);	// set de datum en tijd in RTC
+		ReactieOpo();				// stuur de nieuwe datum op
+	}
     
      if (s == 'l') {
       ReactieOpl();  // geef de lux door door aan de smartphone
@@ -154,10 +160,7 @@ void SendBT() {		// send info naar Android toestel
 	}	
 				
 	ReactieOpm();		// stuur de tijd door
-			 
-			 
-	
-	
+
 }
 
 void ReactieOpa(char SMSkode){	// geef SMScode door aan Android
@@ -169,16 +172,107 @@ void ReactieOpa(char SMSkode){	// geef SMScode door aan Android
 	EEPROM.write(0, SMScode);	// en schrijf in EPROM
 }
 
+void ReactieOpd() { //stuur de rain sensorwaarden door naar de smartphone
+	String tydelijk;
+	tydelijk = "17" + String(Rain1) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+	tydelijk = "18" + String(Rain2) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+	tydelijk = "19" + String(Rain3) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+}    // einde ReactieOpd
 
+void ReactieOpe() { //stuur de gemiddelde rain sensorwaarden door naar de smartphone
+	String tydelijk;
+	tydelijk = "20" + String(Rain1Gem) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+	tydelijk = "21" + String(Rain2Gem) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+	tydelijk = "22" + String(Rain3Gem) + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+}    // einde ReactieOpe
 
+void ReactieOpf() {  // geef de files op de SD card door aan Android
+					 // tijdens deze actie worden er geen metingen verricht!!!
+	File root;
+	root = SD.open("/");
+	root.rewindDirectory();
+	printDirectory(root, 0);
+}
 
+void printDirectory(File dir, int numTabs) {
+	Serial3.print("11");
+	while (true) {
+		File entry = dir.openNextFile();
+		if (!entry) {
+			Serial.println(" no more files");
+			Serial3.print("#");
+			dir.rewindDirectory();
+			break;
+		}
+		for (uint8_t i = 0; i < numTabs; i++) {
+			//Serial.print('\t');
+		}
+		//Serial.print(entry.name());
+		Serial3.print(entry.name());
+		if (entry.isDirectory()) {
+			//Serial.println("/");
+			printDirectory(entry, numTabs + 1);
+		}
+		else {
+			// files have sizes, directories do not
+			Serial3.print(" ");
+			Serial3.print(entry.size(), DEC);
+			Serial3.print(",");
+			//Serial.print("\t");
+			//Serial.println(entry.size(), DEC);
 
+		}
+		entry.close();
+	}
+}
 
+void ReactieOpg(String bestand) {
+	int L = bestand.length() + 1;
+	char in;
+	Serial.print("bestand: ");
+	Serial.println(bestand);
+	char fileNameCharArray[L];
+	bestand.toCharArray(fileNameCharArray, L);
+	File dataFile = SD.open(fileNameCharArray, FILE_READ);
+	// if the file is available, read it:
+	if (dataFile) {
+		while (dataFile.available()) {
+			Serial3.print("12");
+			in = (dataFile.read());
+			while (in != '\n') {
+				Serial3.write(in);
+				in = (dataFile.read());
+			}
+			Serial3.print("#");
+		}
+		dataFile.close();
+		Serial3.print("12");
+		Serial3.print("einde");
+		Serial3.print("#");
+	}
+	// if the file isn't open, pop up an error:
+	else {
+		Serial.print("error opening ");
+		for (int i = 0; i<L; i = i + 1) Serial.print(fileNameCharArray[i]);
+		Serial.println();
+	}
+
+}
 
 void ReactieOph() { //stuur de humidity en temperatuur door naar de smartphone
-  String tydelijk;
-
-  tydelijk = "04" + Hum + "#";
+  String tydelijk = "04" + Hum + "#";
   if (isnan(h)) {
     Serial3.print(F("04Failed to read from DHT sensor!#"));
     delay(20);
@@ -199,42 +293,30 @@ void ReactieOph() { //stuur de humidity en temperatuur door naar de smartphone
   }
 }    // einde ReactieOph
 
-void ReactieOpl() { //stuur de lux door naar de smartphone
-  // hier later de error code aan toevoegen
-  String tydelijk;
-  tydelijk = "09" + Light + "#";
-  Serial3.print(tydelijk);
-  delay(20);
-}    // einde ReactieOpl
-
-void ReactieOpd() { //stuur de rain sensorwaarden door naar de smartphone
-  String tydelijk;
-  tydelijk = "17" + String(Rain1) + "#";
-  Serial3.print(tydelijk);
-  delay(20);
-  tydelijk = "18" + String(Rain2) + "#";
-  Serial3.print(tydelijk);
-  delay(20);
-  tydelijk = "19" + String(Rain3) + "#";
-  Serial3.print(tydelijk);
-  delay(20);
-}    // einde ReactieOpd
-
-void ReactieOpe() { //stuur de gemiddelde rain sensorwaarden door naar de smartphone
-	String tydelijk;
-	tydelijk = "20" + String(Rain1Gem) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	tydelijk = "21" + String(Rain2Gem) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-	tydelijk = "22" + String(Rain3Gem) + "#";
-	Serial3.print(tydelijk);
-	delay(20);
-}    // einde ReactieOpe
-
-
-
+void ReactieOpj(String DatumTijd) {// set de datum en tijd in RTC
+	// DatumTijd splitsen in afzonderlijke delen. Ze zijn gescheiden door":".
+	int jaar, maand, dag, uur, min, sec;
+	int l = DatumTijd.length();			// lengte van de string
+	int b = 0;	// beginpositie in string
+	int e = DatumTijd.indexOf(":");		// eindpositie
+	jaar = (DatumTijd.substring(b, e)).toInt();
+	b = e + 1;
+	e = DatumTijd.indexOf(":",b);
+	maand = (DatumTijd.substring(b, e)).toInt();
+	b = e + 1;
+	e = DatumTijd.indexOf(":", b);
+	dag = (DatumTijd.substring(b, e)).toInt();
+	b = e + 1;
+	e = DatumTijd.indexOf(":", b);
+	uur = (DatumTijd.substring(b, e)).toInt();
+	b = e + 1;
+	e = DatumTijd.indexOf(":", b);
+	min = (DatumTijd.substring(b, e)).toInt();
+	b = e + 1;
+	e = DatumTijd.indexOf(":", b);
+	sec = (DatumTijd.substring(b)).toInt();
+	RTC.adjust(DateTime(jaar, maand, dag, uur, min, sec));
+}
 
 void ReactieOpk(String prefinfo) {	// lees de Arduino settings uit. Meerdere settings in info. En sla op in EPROM
 	int b = 0;	// beginpositie in string
@@ -316,85 +398,13 @@ void SchrijfEprom(int b, int e, String info) {		// schrijf de info in de EPROM
 	}
 }
 
-
-
-void ReactieOpf() {  // geef de files op de SD card door aan Android
-  // tijdens deze actie worden er geen metingen verricht!!!
-  File root;
-  root = SD.open("/");
-  root.rewindDirectory();
-  printDirectory(root, 0);
-}
-
-void printDirectory(File dir, int numTabs) {
-	Serial3.print("11");
-	while (true) {
-		File entry =  dir.openNextFile();
-		if (!entry) {
-			Serial.println(" no more files");
-			Serial3.print("#");
-			dir.rewindDirectory();
-			break;
-		}
-		for (uint8_t i = 0; i < numTabs; i++) {
-			//Serial.print('\t');
-		}
-		//Serial.print(entry.name());
-		Serial3.print(entry.name());
-		if (entry.isDirectory()) {
-			//Serial.println("/");
-			printDirectory(entry, numTabs + 1);
-			} else {
-			// files have sizes, directories do not
-			Serial3.print(" ");
-			Serial3.print(entry.size(),DEC);
-			Serial3.print(",");
-			//Serial.print("\t");
-			//Serial.println(entry.size(), DEC);
-			
-		}
-		entry.close();
-	}
-}
-
-void ReactieOpg(String bestand){
-	int L = bestand.length()+1;
-	char in;
-	Serial.print("bestand: ");
-	Serial.println(bestand);
-	char fileNameCharArray[L];
-	bestand.toCharArray(fileNameCharArray, L);
-	File dataFile = SD.open(fileNameCharArray,FILE_READ);
-	// if the file is available, read it:
-	if (dataFile) {
-		while (dataFile.available()) {
-			Serial3.print("12");
-			in=(dataFile.read());
-			while (in!= '\n') {
-				Serial3.write(in);
-				in=(dataFile.read());
-			}
-			Serial3.print("#");
-		}
-		dataFile.close();
-		Serial3.print("12");
-		Serial3.print("einde");
-		Serial3.print("#");
-	}
-	// if the file isn't open, pop up an error:
-	else {
-		Serial.print("error opening ");
-		for (int i=0;i<L;i=i+1) Serial.print(fileNameCharArray[i]);
-		Serial.println();
-	}
-	
-}
-
-
-
-
-
-
+void ReactieOpl() { //stuur de lux door naar de smartphone
+					// hier later de error code aan toevoegen
+	String tydelijk;
+	tydelijk = "09" + Light + "#";
+	Serial3.print(tydelijk);
+	delay(20);
+}    // einde ReactieOpl
 
 void ReactieOpm() {		// stuur tijd
 	now = RTC.now();  // fetch the time
@@ -472,6 +482,7 @@ void ReactieOpq(String bestand) {  // delete de file 'bestand' van SD card
 }
 
 void ReactieOpr() {		// geeft Vlotterstand door
+	VlotterWaarde = digitalRead(VlotterLaag);
 	if (VlotterWaarde == HIGH) {
 		Serial3.print("02L#");
 		delay(20);
@@ -528,11 +539,12 @@ void ReactieOpv() {		// stuur Pompnummer. Return: "16" met Pompnummer.
 }
 
 void ReactieOpy() {		// stuur bepaalde berichten opnieuw
+	ReactieOps();		// schijfinfo
 	ReactieOpa(SMScode);
 	ReactieOpt(telefoonnummer);
+	ReactieOpo();	// stuur de datum op
 	ReactieOpu();	// pompstatus
 	ReactieOpv();	// pompnummer
-	ReactieOpo();	// stuur de datum op
 	ReactieOpr();	// stuur vlotterstatus op
 	Sendkode26();	// stuur de vaste gegevens
 
