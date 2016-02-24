@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class FragmentTab3 extends Fragment {
 
@@ -23,11 +26,11 @@ public class FragmentTab3 extends Fragment {
     public EditText txtDruppelspeling;
     public EditText txtSamples;
     public EditText txtVlotterdelay;
+    public EditText txtDatumTijd;
     String Arduinoinfo = "";
     public Button Store;
+    public Button DateStore;
 
-
-    Calendar now = Calendar.getInstance();
     static final String TAG = "BDR";
 
 	@Override
@@ -48,9 +51,11 @@ public class FragmentTab3 extends Fragment {
         txtDruppelspeling = (EditText)mijnView.findViewById(R.id.etdruppelSpeling);
         txtSamples = (EditText)mijnView.findViewById(R.id.etsamples);
         txtVlotterdelay = (EditText)mijnView.findViewById(R.id.etvlotterDelay);
-
+        txtDatumTijd = (EditText)mijnView.findViewById(R.id.etdatum_tijd);
         Store = (Button)mijnView.findViewById(R.id.btnStore);
         Store.setOnClickListener(GoStoreOpArduino);
+        DateStore = (Button)mijnView.findViewById(R.id.btnDatestore);
+        DateStore.setOnClickListener(SetDateOpArduino);
 
 		return mijnView;
 	}
@@ -61,6 +66,21 @@ public class FragmentTab3 extends Fragment {
             StoreOpArduino();
         }
     };
+
+    View.OnClickListener SetDateOpArduino = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {   // Reset Arduino
+        // TODO haal androidtime op en stuur naar Arduino
+            Calendar now = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss");
+            String strDate = sdf.format(now.getTime());
+            SendDateToArduino(strDate);
+           }
+    };
+
+    void SendDateToArduino(String DateTime) {
+        ((MainActivity) getActivity()).sendMessage("j" + DateTime +"#");
+    }
 
     public void StoreOpArduino() {
         // eerst controle van de input

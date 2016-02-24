@@ -48,6 +48,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import nl.drahmann.about.About;
 import nl.drahmann.mybtlibrary.chat.BluetoothChatService;
 import nl.drahmann.mybtlibrary.chat.Constants;
@@ -71,12 +73,6 @@ public class MainActivity extends FragmentActivity {
     private String mConnectedDeviceName = null;
 
     /**
-     * Array adapter for the conversation thread
-     * kan weg later
-     */
-    private ArrayAdapter<String> mConversationArrayAdapter;
-
-    /**
      * String buffer for outgoing messages
      */
     private StringBuffer mOutStringBuffer;
@@ -94,6 +90,9 @@ public class MainActivity extends FragmentActivity {
     String TabFragment1;
     String TabFragment2;
     String TabFragment3;
+    String TabFragment4;
+    String TabFragment5;
+
 
     public void setTabFragment1(String t) {TabFragment1 = t; }
     public String getTabFragment1() {return TabFragment1; }
@@ -101,10 +100,18 @@ public class MainActivity extends FragmentActivity {
     public String getTabFragment2() {return TabFragment2; }
     public void setTabFragment3(String t) {TabFragment3 = t; }
     public String getTabFragment3() {return TabFragment3; }
+    public void setTabFragment4(String t) {TabFragment4 = t; }
+    public String getTabFragment4() {return TabFragment4; }
+    public void setTabFragment5(String t) {TabFragment5 = t; }
+    public String getTabFragment5() {return TabFragment5; }
 
-    public int pompnr = 0;  // Hulpvariable in case
+    public int pompnr = 0;      // Hulpvariable in case
+    public String active_log;   // het activieve logbestand
 
     public boolean firstrun = true;
+
+    MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+    ArrayList<String> sdfiles = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,12 +126,11 @@ public class MainActivity extends FragmentActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         // Set the ViewPagerAdapter into ViewPager
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-        viewPager.setOffscreenPageLimit(3);  // zo blijven er 3 fragments in het werkgeheugen
+        viewPager.setOffscreenPageLimit(5);  // zo blijven er 5 fragments in het werkgeheugen
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            // FragmentActivity activity = getActivity();
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+           Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             //activity.finish();
         }
     }
@@ -143,6 +149,10 @@ public class MainActivity extends FragmentActivity {
 		 * 08 Arduino send tijd
 		 * 09 Arduino send waarde Lux
 		 * 10 Arduino send waarde SMScode
+		 * 11 Arduino send files
+		 * 12 Arduino send inhoud files
+		 * 13 Arduino send deleted filename
+		 * 14 Arduino send telefoonnummer
 		 * 15 Arduino send PompStatus
 		 * 16 Arduino send pompnummer
 		 * 17 Arduino send waarde sensor1
@@ -157,6 +167,8 @@ public class MainActivity extends FragmentActivity {
 		 * 26 Arduino send vaste gegevens
 		 * 27 Arduino send SMS status
 		 * 28 Arduino send SMS bericht
+		 * 29 Arduino send status vlotterdelay
+		 * 30 Arduino send status sensordelay
 		 *
 
 		 */
@@ -176,8 +188,21 @@ public class MainActivity extends FragmentActivity {
         FragmentTab3 fragment3 = (FragmentTab3)this
                 .getSupportFragmentManager()
                 .findFragmentByTag(TabOfFragment3);
+        // opzoeken van fragment4
+        String TabOfFragment4 = (this).getTabFragment4();
+        FragmentTab4 fragment4 = (FragmentTab4)this
+                .getSupportFragmentManager()
+                .findFragmentByTag(TabOfFragment4);
+        // opzoeken van fragment5
+        String TabOfFragment5 = (this).getTabFragment5();
+        FragmentTab5 fragment5 = (FragmentTab5)this
+                .getSupportFragmentManager()
+                .findFragmentByTag(TabOfFragment5);
 
-        if (firstrun == true){  // alleen de eerste keer
+        int i;
+        int j;
+
+        if (firstrun){  // alleen de eerste keer
             sendMessage("y#");
             Log.d(TAG, " M188 firstrun = " + firstrun);
             firstrun = false;
@@ -212,12 +237,11 @@ public class MainActivity extends FragmentActivity {
                 //connected = true;
                 break;
             case 2: // geef de stand van de vlotter weer
-                if (info.equals("L") ) { // het niveau staat te laag
+                if (info.equals("L")) { // het niveau staat te laag
                     fragment1.Niveau.setTextSize(14); // veld Niveau highlighted rood maken
                     fragment1.Niveau.setBackgroundColor(0xFFFF0000);
                     fragment1.Niveau.setText("LEEG");
-                }
-                else {
+                } else {
                     fragment1.Niveau.setTextSize(14);
                     fragment1.Niveau.setBackgroundColor(0xFF00FF00);
                     fragment1.Niveau.setText("VOLDOENDE");
@@ -225,7 +249,8 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 3: // Arduino send datum
                 fragment1.ADatum.setText(info);
-                sendMessage("s#");	 	// vraag om de gegevens van de schijf en file
+                fragment3.txtDatumTijd.setText(info);
+                sendMessage("s#");        // vraag om de gegevens van de schijf en file
                 break;
             case 4: // set de humidity in het veld
                 fragment1.Humidity.setText(info);
@@ -237,11 +262,13 @@ public class MainActivity extends FragmentActivity {
                 fragment1.Schijf.setText(info);
                 break;
             case 7: // set de bestandsinfo in het veld
-                fragment1.Bestand.setText(info);
+                active_log = info;
+                fragment1.Bestand.setText(active_log);
                 sendMessage("u#");        // vraag om de Pompstatus
                 break;
             case 8: // Arduino send tijd
                 fragment1.ATijd.setText(info);
+                fragment3.txtDatumTijd.setText(fragment1.ADatum.getText() + " " + info);
                 break;
             case 9: // set de Light info in het veld
                 fragment1.Lux.setText(info);
@@ -252,13 +279,45 @@ public class MainActivity extends FragmentActivity {
                 else fragment3.SMS.setChecked(false);
                 break;
             case 11:    // files
+                sdfiles.clear();
+                i = 0;
+                j = 0;
+                int k = 0;
+                int m = info.length();
+                while (j < m) {
+                    k = info.indexOf(',', k + 1);
+                    sdfiles.add(info.substring(j, k));
+                    j = k + 1;
+                    i += 1;
+                }
+                fragment4.canclick = true;
+                fragment4.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, sdfiles));
+                fragment4.adddb.setVisibility(View.INVISIBLE);
+                fragment4.delfile.setVisibility(View.INVISIBLE);
 
                 break;
             case 12:    // inhoud files
-
+                fragment4.progressBar.setVisibility(View.VISIBLE);
+                fragment4.progressBar.setMax(fragment4.selFileRecords / 34);
+                if (!info.equals("einde")) {
+                    fragment4.progressStatus += 1;
+                    this.sdfiles.add(info);
+                    fragment4.progressBar.setProgress(fragment4.progressStatus);
+                    return;
+                }
+                fragment4.progressBar.setVisibility(View.INVISIBLE);
+                fragment4.canclick = false;
+                fragment4.adddb.setVisibility(View.VISIBLE);
+                fragment4.delfile.setVisibility(View.VISIBLE);
+                fragment4.getListView().setVisibility(View.VISIBLE);
+                fragment4.setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, sdfiles));
                 break;
             case 13:       // deleted filename
-
+                fragment4.tekst.setText(info);
+                fragment4.tekst.setVisibility(View.VISIBLE);
+                fragment4.getListView().setVisibility(View.INVISIBLE);
+                fragment4.adddb.setVisibility(View.INVISIBLE);
+                fragment4.delfile.setVisibility(View.INVISIBLE);
                 break;
             case 14:    // telefoonnummer
                 fragment1.Telefoon.setText(info);
@@ -268,14 +327,14 @@ public class MainActivity extends FragmentActivity {
                 Integer x = Integer.parseInt(info);
                 // set alle velden op grijs
 
-                fragment1.Status01.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status02.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status03.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status04.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status05.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status06.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status07.setBackgroundColor(0xE0E0E0E0);
-                fragment1.Status08.setBackgroundColor(0xE0E0E0E0);
+                fragment1.Status01.setBackgroundColor(0xE0009688);
+                fragment1.Status02.setBackgroundColor(0xE0009688);
+                fragment1.Status03.setBackgroundColor(0xE0009688);
+                fragment1.Status04.setBackgroundColor(0xE0009688);
+                fragment1.Status05.setBackgroundColor(0xE0009688);
+                fragment1.Status06.setBackgroundColor(0xE0009688);
+                fragment1.Status07.setBackgroundColor(0xE0009688);
+                fragment1.Status08.setBackgroundColor(0xE0009688);
 
                 // set alle opmerkingsvelden uit
                 fragment1.Opm01.setVisibility(View.INVISIBLE);
@@ -289,46 +348,53 @@ public class MainActivity extends FragmentActivity {
 
                 // set het x veld op groen
                 switch (x) {
-                    case 1: fragment1.Status01.setBackgroundColor(0xFF00FF00);
+                    case 1:
+                        fragment1.Status01.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm01.setVisibility(View.VISIBLE);
                         break;
-                    case 2: fragment1.Status02.setBackgroundColor(0xFF00FF00);
+                    case 2:
+                        fragment1.Status02.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm02.setVisibility(View.VISIBLE);
                         break;
-                    case 3: fragment1.Status03.setBackgroundColor(0xFF00FF00);
+                    case 3:
+                        fragment1.Status03.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm03.setVisibility(View.VISIBLE);
                         break;
-                    case 4: fragment1.Status04.setBackgroundColor(0xFF00FF00);
+                    case 4:
+                        fragment1.Status04.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm04.setVisibility(View.VISIBLE);
                         String opm4 = "Pomp " + pompnr + " in gebruik";
                         fragment1.Opm04.setText(opm4);
                         break;
-                    case 5: fragment1.Status05.setBackgroundColor(0xFF00FF00);
+                    case 5:
+                        fragment1.Status05.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm05.setVisibility(View.VISIBLE);
                         break;
-                    case 6: fragment1.Status06.setBackgroundColor(0xFF00FF00);
+                    case 6:
+                        fragment1.Status06.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm06.setVisibility(View.VISIBLE);
                         break;
-                    case 7: fragment1.Status07.setBackgroundColor(0xFF00FF00);
+                    case 7:
+                        fragment1.Status07.setBackgroundColor(0xFF00FF00);
                         fragment1.Opm07.setVisibility(View.VISIBLE);
                         break;
-                    case 8: fragment1.Status08.setBackgroundColor(0xFFFF0000);
+                    case 8:
+                        fragment1.Status08.setBackgroundColor(0xFFFF0000);
                         fragment1.Opm08.setVisibility(View.VISIBLE);
                         break;
                 }
-                // writeData("r#");       // vraag het waterniveau op
+
                 break;
             case 16:        // set het Pompnummer
                 try {
                     pompnr = Integer.parseInt(info);
-                }
-                catch (NumberFormatException ex) { // omzetten is niet gelukt
+                } catch (NumberFormatException ex) { // omzetten is niet gelukt
                     GeefFoutboodschap(info);
                 }
                 break;
             case 17:    // set de Sensor 1 info in het veld
                 fragment1.Sensor1.setText(info);
-                fragment2.sensor1 = Integer.parseInt (info);
+                fragment2.sensor1 = Integer.parseInt(info);
                 break;
             case 18:  // set de Sensor 2 info in het veld
                 fragment1.Sensor2.setText(info);
@@ -336,7 +402,7 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 19: // set de Sensor 3 info in het veld
                 fragment1.Sensor3.setText(info);
-                fragment2.sensor3 = Integer.parseInt (info);
+                fragment2.sensor3 = Integer.parseInt(info);
                 fragment2.onSensorChanged();
                 break;
             case 20:    // set de gem Sensor 1 info in het veld
@@ -359,34 +425,34 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 26:    // lees de settings in
                 // opsplitsen info in afzonderlijke velden. Ze zijn gescheiden door een "$"
-                int b = 0;	// beginpositie in string
-                int e = info.length();	// eindpositie in string
+                int b = 0;    // beginpositie in string
+                int e;    // eindpositie in string
 
                 // drooglevel1
-                e = info.indexOf ("$");
-                fragment3.txtDrooglevel1.setText(info.substring(b,e));
+                e = info.indexOf("$");
+                fragment3.txtDrooglevel1.setText(info.substring(b, e));
                 // drooglevel2
-                b = e + 1;	// het nieuwe begin
-                e = info.indexOf ("$",b);
-                fragment3.txtDrooglevel2.setText(info.substring(b,e));
+                b = e + 1;    // het nieuwe begin
+                e = info.indexOf("$", b);
+                fragment3.txtDrooglevel2.setText(info.substring(b, e));
                 // drooglevel3
-                b = e + 1;	// het nieuwe begin
-                e = info.indexOf ("$",b);
-                fragment3.txtDrooglevel3.setText(info.substring(b,e));
+                b = e + 1;    // het nieuwe begin
+                e = info.indexOf("$", b);
+                fragment3.txtDrooglevel3.setText(info.substring(b, e));
                 // droogltijd
-                b = e + 1;	// het nieuwe begin
-                e = info.indexOf ("$",b);
-                fragment3.txtDroogtijd.setText(info.substring(b,e));
+                b = e + 1;    // het nieuwe begin
+                e = info.indexOf("$", b);
+                fragment3.txtDroogtijd.setText(info.substring(b, e));
                 // druppelspeling
-                b = e + 1;	// het nieuwe begin
-                e = info.indexOf ("$",b);
-                fragment3.txtDruppelspeling.setText(info.substring(b,e));
+                b = e + 1;    // het nieuwe begin
+                e = info.indexOf("$", b);
+                fragment3.txtDruppelspeling.setText(info.substring(b, e));
                 // samples
-                b = e + 1;	// het nieuwe begin
-                e = info.indexOf ("$",b);
-                fragment3.txtSamples.setText(info.substring(b,e));
+                b = e + 1;    // het nieuwe begin
+                e = info.indexOf("$", b);
+                fragment3.txtSamples.setText(info.substring(b, e));
                 // vlotterdelay
-                b = e + 1;	// het nieuwe begin
+                b = e + 1;    // het nieuwe begin
                 fragment3.txtVlotterdelay.setText(info.substring(b));
 
                 break;
@@ -395,6 +461,43 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 28:        // SMS bericht
                 fragment1.SMSbericht.setText(info);
+                break;
+            case 29:        // status van de vlotterdelay. Om statusbar bij te werken
+                int eerste = 0;
+                int tweede = info.indexOf("$");
+                int Status = Integer.parseInt(info.substring(eerste, tweede));
+                eerste = tweede + 1;
+                int max = Integer.parseInt(info.substring(eerste));
+                if (Status == 0)  {
+                    fragment1.toon_vlotter_delay.setVisibility(View.VISIBLE);
+                    fragment1.ProgressVlotterText.setVisibility(View.VISIBLE);
+                    fragment1.toon_vlotter_delay.setMax(max);
+                }
+                fragment1.progressvlotterstatus = Status;
+                fragment1.WerkVlotterBarBij();
+                if (Status == max) {
+                    fragment1.toon_vlotter_delay.setVisibility(View.INVISIBLE);
+                    fragment1.ProgressVlotterText.setVisibility(View.INVISIBLE);
+                }
+                break;
+
+            case 30:        // status van de sensordelay. Om statusbar bij te werken
+                eerste = 0;
+                tweede = info.indexOf("$");
+                Status = Integer.parseInt(info.substring(eerste, tweede));
+                eerste = tweede + 1;
+                max = Integer.parseInt(info.substring(eerste));
+                if (Status == 0)  {
+                    fragment1.toon_sensor_delay.setVisibility(View.VISIBLE);
+                    fragment1.Opm03.setVisibility(View.VISIBLE);
+                    fragment1.toon_sensor_delay.setMax(max);
+                }
+                fragment1.progresssensorstatus = Status;
+                fragment1.WerkSensorBarBij();
+                if (Status == max) {
+                    fragment1.toon_sensor_delay.setVisibility(View.INVISIBLE);
+                    fragment1.Opm03.setVisibility(View.INVISIBLE);
+                }
                 break;
 
             // volgende case
@@ -425,10 +528,6 @@ public class MainActivity extends FragmentActivity {
     hier  een copie van BluetoothChat
     This controls Bluetooth to communicate with other devices.
     */
-
-
-
-
 
     @Override
     public void onStart() {
@@ -473,12 +572,6 @@ public class MainActivity extends FragmentActivity {
      */
     private void setupChat() {
         Log.d(TAG, "setupChat()");
-
-        // Initialize the array adapter for the conversation thread
-        // kan later weg
-        //mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
-
-        // mConversationView.setAdapter(mConversationArrayAdapter);
 
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(this, mHandler);
@@ -697,7 +790,7 @@ public class MainActivity extends FragmentActivity {
              */
 
             case R.id.menu_info: {
-                About.show(((MainActivity) this), getString(R.string.about),
+                About.show(( this), getString(R.string.about),
                         getString(R.string.close));
                 return true;
             }

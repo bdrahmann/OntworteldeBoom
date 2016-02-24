@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnToonDB"
+            android:layout_width="130.0dip"
+            android:layout_height="wrap_content"
+            android:text="Toon DB"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btnExportDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Export DB to SD card"
+            android:layout_gravity="right"
+            android:layout_marginEnd="69dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/btnDeleteDB" />
+
+
+        <Button
+            android:id="@+id/btnDeleteDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete DB"
+            android:layout_marginEnd="10dp"
+            android:layout_alignBaseline="@+id/btnExportDB"
+            android:layout_alignBottom="@+id/btnExportDB"
+            android:layout_alignParentEnd="true"
+            />
+
+
+        <TextView
+            android:id="@+id/tvdbTekst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvdbExportTekst"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:id="@+id/tvdbExportTekst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnExportDB"
+            android:layout_alignLeft="@+id/btnExportDB"
+            android:layout_marginLeft="5dp" />
+
+
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_gravity="center_horizontal"
+        android:id="@android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

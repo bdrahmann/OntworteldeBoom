@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:visibility="invisible"
+            android:layout_width="130.0dip"
+            android:layout_height="wrap_content"
+            android:text="Add file to DB"
+            android:layout_alignBottom="@+id/btnToon"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/btnToon"
+            android:layout_width="130.0dip"
+            android:layout_height="wrap_content"
+            android:text="Toon SD directory"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_gravity="right"
+            android:visibility="invisible"
+            android:layout_width="130.0dip"
+            android:layout_height="wrap_content"
+            android:text="delete logbestand"
+            android:hint="file wordt verwijderd van de Arduino"
+            android:layout_alignBottom="@id/btnToon"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/pbVoortgang"
+        android:visibility="invisible"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Horizontal" />
+
+    <TextView
+        android:id="@+id/tvTekst"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"/>
+
+    <ListView
+        android:layout_gravity="center_horizontal"
+        android:id="@android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

@@ -1,12 +1,14 @@
 package nl.drahmann.ontworteldeboom;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class FragmentTab1 extends Fragment {
@@ -23,6 +25,7 @@ public class FragmentTab1 extends Fragment {
 
     public TextView Opm01;
     public TextView Opm02;
+    public ProgressBar toon_sensor_delay;
     public TextView Opm03;
     public TextView Opm04;
     public TextView Opm05;
@@ -34,6 +37,8 @@ public class FragmentTab1 extends Fragment {
     public TextView Bestand;
     public TextView Sms;
     public TextView Telefoon;
+    public ProgressBar toon_vlotter_delay;
+    public TextView ProgressVlotterText;
     public TextView ADatum;
     public TextView ATijd;
 
@@ -56,6 +61,10 @@ public class FragmentTab1 extends Fragment {
 
     public Button ResetA;
 
+    private Handler vHandler = new Handler();
+    private Handler sHandler = new Handler();
+    int progressvlotterstatus = 0;
+    int progresssensorstatus = 0;
 
 
     @Override
@@ -78,6 +87,7 @@ public class FragmentTab1 extends Fragment {
 
         Opm01 = (TextView)myView.findViewById(R.id.TVO01);
         Opm02 = (TextView)myView.findViewById(R.id.TVO02);
+        toon_sensor_delay = (ProgressBar)myView.findViewById(R.id.pbSensorDelay);
         Opm03 = (TextView)myView.findViewById(R.id.TVO03);
         Opm04 = (TextView)myView.findViewById(R.id.TVO04);
         Opm05 = (TextView)myView.findViewById(R.id.TVO05);
@@ -89,6 +99,8 @@ public class FragmentTab1 extends Fragment {
         Bestand = (TextView)myView.findViewById(R.id.tvBestand);
         Sms = (TextView)myView.findViewById(R.id.tvSMS);
         Telefoon = (TextView)myView.findViewById(R.id.tvTelefoon);
+        toon_vlotter_delay = (ProgressBar)myView.findViewById(R.id.pbDelay);
+        ProgressVlotterText = (TextView)myView.findViewById(R.id.tvprogress);
         ADatum = (TextView)myView.findViewById(R.id.tvADatum);
         ATijd = (TextView)myView.findViewById(R.id.tvATijd);
 
@@ -122,9 +134,24 @@ public class FragmentTab1 extends Fragment {
         }
     };
 
-
     public void ResetArduino() {
         ((MainActivity)getActivity()).sendMessage("z#");	// verzend de waarde naar de arduino
+    }
+
+    public void WerkVlotterBarBij() {
+        vHandler.post(new Runnable() {
+            public void run() {
+                toon_vlotter_delay.setProgress(progressvlotterstatus);
+            }
+        });
+    }
+
+    public void WerkSensorBarBij() {
+        sHandler.post(new Runnable() {
+            public void run() {
+                toon_sensor_delay.setProgress(progresssensorstatus);
+            }
+        });
     }
 
 

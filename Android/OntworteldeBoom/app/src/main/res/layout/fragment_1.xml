@@ -23,7 +23,7 @@
             android:id="@+id/TV01"
             android:layout_marginLeft="1dp"
             android:layout_width="wrap_content"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
 
@@ -35,7 +35,7 @@
             android:id="@+id/TV02"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/TV01"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
 
@@ -47,7 +47,7 @@
             android:id="@+id/TV03"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/TV02"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"
             android:enabled="false"/>
@@ -60,7 +60,7 @@
             android:id="@+id/TV04"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/TV03"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
 
@@ -71,7 +71,7 @@
             android:textColor="#000"
             android:id="@+id/TV05"
             android:layout_width="wrap_content"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"
             android:layout_alignTop="@+id/TV04"
@@ -86,7 +86,7 @@
             android:id="@+id/TV06"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/TV05"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
 
@@ -97,7 +97,7 @@
             android:textColor="#000"
             android:id="@+id/TV07"
             android:layout_width="wrap_content"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"
             android:layout_alignParentTop="true"
@@ -111,7 +111,7 @@
             android:textColor="#000"
             android:id="@+id/TV08"
             android:layout_width="wrap_content"
-            android:background="#E0E0E0"
+            android:background="#009688"
             android:padding="24dp"
             android:alpha="100"
             android:layout_alignParentTop="true"
@@ -141,6 +141,16 @@
             android:layout_toRightOf="@+id/TV01"
             android:layout_below="@+id/TV02"
             android:padding="5dp"/>
+
+        <ProgressBar
+            android:id="@+id/pbSensorDelay"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/TV02"
+            android:layout_below="@+id/TV03"
+            android:padding="5dp"
+            android:visibility="invisible" />
 
         <TextView
             android:text="Sensor delay"
@@ -340,6 +350,8 @@
             android:layout_alignBottom="@+id/textView6"
             android:hint="tijd" />
 
+
+
     </RelativeLayout>
 
     <LinearLayout
@@ -370,8 +382,31 @@
                 android:layout_alignBottom="@+id/textView2"
                 android:layout_marginLeft="19dp"
                 android:layout_toRightOf="@+id/textView2"
-                android:hint="leeg"
+                android:hint="niveau"
                 android:textColor="#000" />
+
+            <ProgressBar
+                android:id="@+id/pbDelay"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_alignBottom="@+id/textView2"
+                android:layout_marginStart="110dp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tvprogress"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:layout_alignLeft="@id/pbDelay"
+                android:layout_alignTop="@id/pbDelay"
+                android:layout_alignRight="@id/pbDelay"
+                android:layout_alignBottom="@id/pbDelay"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:text="vlotterdelay"/>
 
             <TextView
                 android:id="@+id/textView4"
@@ -602,11 +637,12 @@
 
 
             <Button
+                android:id="@+id/btReset"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Reset Arduino"
-                android:id="@+id/btReset"
+                android:background="#ffeb3b"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5dp"
                 android:layout_alignParentRight="true"

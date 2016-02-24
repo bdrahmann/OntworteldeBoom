@@ -207,15 +207,46 @@
             android:layout_toEndOf="@+id/etvlotterDelay"
             android:layout_marginStart="20dp"
             android:layout_alignStart="@+id/textView38"
-            android:text = "tijdsvertraging in laagwater om dender te voorkomen. ( in seconden. Max 2 min.)" />
+            android:text = "tijdsvertraging in laagwater om dender te voorkomen. ( in seconden. Max 2 min.)"
+            android:id="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cbxSMS"
+        android:layout_below="@+id/textView37"
+        android:layout_alignBaseline="@+id/etdatum_tijd"
+        android:text="datum en tijd:" />
+
+    <EditText
+        android:id="@+id/etdatum_tijd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="datum en tijd"
+        android:layout_toEndOf="@+id/textView39"
+        android:layout_below="@+id/etvlotterDelay"
+        android:layout_alignStart="@+id/ettelNummer"
+        android:focusable="false" />
 
     <Button
+        android:id="@+id/btnDatestore"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" set Androidtijd op Arduino "
+        android:layout_alignBottom="@+id/etdatum_tijd"
+        android:layout_alignStart="@+id/textView" />
+
+    <Button
+        android:id="@+id/btnStore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Store op Arduino"
-        android:id="@+id/btnStore"
-        android:layout_below="@+id/etvlotterDelay"
-        android:layout_alignEnd="@+id/etvlotterDelay" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"/>
 
 
 </RelativeLayout>

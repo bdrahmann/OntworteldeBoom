@@ -7,9 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-	final int PAGE_COUNT = 3;
+	final int PAGE_COUNT = 5;
 	// Tab Titles
-	private String tabtitles[] = new String[] { "Overzicht", "Grafiek", "Vaste gegevens" };
+	private String tabtitles[] = new String[] { "Overzicht", "Grafiek", "Vaste gegevens",
+								"Files op SD card", "DataBase"};
 	Context context;
 
 	public ViewPagerAdapter(FragmentManager fm) {
@@ -17,9 +18,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public int getCount() {
-		return PAGE_COUNT;
-	}
+	public int getCount() {	return PAGE_COUNT;}
 
 	@Override
 	public Fragment getItem(int position) {
@@ -33,6 +32,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 2: // Open FragmentTab3.java
                 FragmentTab3 fragmenttab3 = new FragmentTab3();
                 return fragmenttab3;
+			case 3:	// Open FragmentTab4.java
+				FragmentTab4 fragmenttab4 = new FragmentTab4();
+				return fragmenttab4;
+			case 4:	// Open FragmentTab5.java
+				FragmentTab5 fragmenttab5 = new FragmentTab5();
+				return fragmenttab5;
             default:
                 return null;
         }
