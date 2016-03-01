@@ -131,8 +131,8 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 	}
 	
 	if (s == 'z') { 
-		softwareReset( WDTO_60MS);	// restart in 60 milliseconds
-		
+		// softwareReset( WDTO_60MS);	// restart in 60 milliseconds. Werkt niet op alle MEGA's
+		ReactieOpz();
 	}
    
     
@@ -548,6 +548,22 @@ void ReactieOpy() {		// stuur bepaalde berichten opnieuw
 	ReactieOpr();	// stuur vlotterstatus op
 	Sendkode26();	// stuur de vaste gegevens
 
+}
+
+void ReactieOpz() {		// restart Arduino door initialisatie gegevens
+	Pig = Pomp1;
+	PompStatus = 0;				// toestand van de Pompstatus
+	PompStatusoud = 0;			// de vorige Pompstatus
+	sw_laagwater = true;	// begin met laagwater
+	digitalWrite(Pomp1, LOW);		// zet pomp1 uit. De pompen zijn active LOW
+	digitalWrite(Pomp2, LOW);		// zet pomp2 uit
+	laagwateroud = digitalRead(VlotterLaag);	// lees de beginstand van de vlotter
+	WriteSDcard1("00");
+	logfile.println(F("0,0,Reset arduino"));
+	logfile.flush();
+	ReactieOpy();	// stuur bepaalde berichten opnieuw
+	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
+	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
 }
 
 void Sendkode26() {	// alle vaste gegevens naar Android sturen
