@@ -39,6 +39,31 @@ void LeesRaindropSensor() {    // lees de Raindropsensoren
 			};
 }	// einde LeesRaindropSensor
 
+void LeesRaindropSensoropDroog() { // vervanger van LeesRaindropSensor
+  // verandering is: er wordt vastgesteld of er minstens twee sensoren droog aangeven. Zo ja: dan Droog = true,
+  // in alle andere gevallen Droog = false.
+  
+  /*  Hier worden de Raindropsensoren uitgelezen
+**  Uitgelezen waarde = 0 wil zeggen: drijfnat
+**  Uitgelezen waarde hoog wil zeggen: droog
+*/
+  int droogteller = 0;
+  
+ // lees de Raindropsensoren
+  Rain1 = analogRead(druppel1);
+  Rain2 = analogRead(druppel2);
+  Rain3 = analogRead(druppel3);
+  delay(100);
+  SchrijfRaindrop(Rain1,Rain2,Rain3);
+
+  if (Rain1 < Drooglevel1) droogteller = droogteller + 1;
+  if (Rain2 < Drooglevel2) droogteller = droogteller + 1;
+  if (Rain3 < Drooglevel3) droogteller = droogteller + 1;
+
+  if (droogteller > 1) Droog = true; else Droog = false;      // kijk of de sensor droog staat
+   
+} // einde LeesRaindropSensoropDroog
+
 void SchrijfRaindrop (int R1,int R2,int R3) {	// schrijf waarde raindrop in tussenposen van R_INTERVAL naar SD card
 	if ((millis() - syncTimeL) < LOG_R_INTERVAL) return;  // de intervaltijd is nog niet verstreken
 	syncTimeL = millis();
@@ -55,7 +80,9 @@ void ControleerSensoren(){
 	// een sensor is kapot als de waarde vaak om het gemiddelde schommelt
 	// vaak is meer dan de helft van het aantal tellingen
 	// aantal tellingen is bv 20
-	// elke keer dat deze routine benaderd wordt, wordt er één keer gemeten en geteld
+	// elke keer dat deze routine benaderd wordt, wordt er ï¿½ï¿½n keer gemeten en geteld
+	// 
+	// Deze routine is in het hoofdprogramma buiten werking gesteld.
 	
 	if((PompStatus == 4) || (PompStatus == 8)) {	// doe dit alleen als de pomp in normaal bedrijf is, of als de Arduino gestopt is
 		

@@ -8,17 +8,20 @@
 ** maar nu met twee pompen en de kraan wordt afzonderlijk bedient via een vlotterschakelaar en een accu
 ** aan de boom zitten drie druppelsensoren. Hiermee kan bepaald worden of er een sensor stuk is.
 ** De overige sensoren blijven hetzelfde
-** versie 02 PompinGebruik geïntroduceerd.
+** versie 02 PompinGebruik geï¿½ntroduceerd.
 ** versie 02.1	softwarematige reset toegevoegd
 ** versie 02.2	verwerksensoren aangepast om kapotte sensor vast te stellen
 ** versie ontwortelde boom:
 ** vaste gegevens opslaan in EPROM en doorsturen naar Android
 ** versie 0.3
 ** SMS gegevens nu zichtbaar in Android app
-** Testsignaal aangepast: nu slechts één melding per dag
+** Testsignaal aangepast: nu slechts ï¿½ï¿½n melding per dag
 ** In Laagwater.ino wordt info verzonden om de voortgang van de delay in Android te tonen
 ** In DuoPompRegeling wordt info verzonden om sensordelay in Android te tonen
-** 
+** versie 0.4
+** Methode om vast te stellen of sensor stuk is, is buiten werking gesteld.
+** Er wordt alleen een Droog signaal gegeven als is vastgesteld dat er minstens twee sensoren
+** droog staan. LeesRaindropSensor is vervangen door LeesRaindropSensoropDroog
 **
 **
 ** Credit: The following example was used as a reference
@@ -148,7 +151,7 @@ boolean Rain3Pos = false;
 boolean Rain1_stuk = false;	// geeft aan of druppelsensor 1 stuk is
 boolean Rain2_stuk = false;	// geeft aan of druppelsensor 2 stuk is
 boolean Rain3_stuk = false;	// geeft aan of druppelsensor 3 stuk is
-boolean Rain_SMS_Gestuurd = false;	// stuur slechts één keer een SMS als alle sensoren stuk zijn
+boolean Rain_SMS_Gestuurd = false;	// stuur slechts ï¿½ï¿½n keer een SMS als alle sensoren stuk zijn
 
 int Drooglevel1 = 0;	// onder deze waarde staat er geen of te weinig water op de sensor(50). Via BT aan te passen.
 int Drooglevel2 = 0;
@@ -162,7 +165,7 @@ int Druppelspeling = 0;			// toegestane verschil rond het gemiddelde (5). Via BT
 // Global variable for SMS yes or no
 char SMScode = '0';			//stuur sms bij alarmsituaties, default uit
 String telefoonnummer = "";
-boolean bericht_gestuurd = false;	// om te voorkomen dat sms testbericht meer dan één per minuut gestuurd wordt
+boolean bericht_gestuurd = false;	// om te voorkomen dat sms testbericht meer dan ï¿½ï¿½n per minuut gestuurd wordt
 const int Simpower = 7;		// voor de sim900 kaart Shield B-v1.1
 // const int Simpower = 9;  // voor de "oude" Sim900 kaart
 
@@ -263,9 +266,12 @@ void loop() {
 					   
 	LeesLight();       // lees de lichtopbrengst
 					   
-	LeesRaindropSensor();	// Lees de raindrop sensoren
+	// LeesRaindropSensor();	// Lees de raindrop sensoren
+	// routine vervangen door onderstaande
+	LeesRaindropSensoropDroog();  // zijn vervanger
 
-	ControleerSensoren();	// controleer of de sensoren in orde zijn
+	// ControleerSensoren();	// controleer of de sensoren in orde zijn
+ // routine uitgezet omdat met andere filosofie gewerkt wordt
 	
 	LaagWater();	// routine om de laagwatervlotter uit te lezen
 					
