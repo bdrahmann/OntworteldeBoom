@@ -46,8 +46,8 @@
 #include <avr/wdt.h>		// tbv softwarematige reset
 
 String SMScode08 = "De bak van de ontwortelde boom is leeg. HELP!";
-String SMScode10 = "Pomp 1 van ontwortelde boom is uitgeschakeld!";
-String SMScode11 = "Pomp 2 van ontwortelde boom is uitgeschakeld!";
+String SMScode10 = "2 sensoren droog; Pomp 1 van ontwortelde boom is uitgeschakeld!";
+String SMScode11 = "2 sensoren droog; Pomp 2 van ontwortelde boom is uitgeschakeld!";
 String SMScode12 = "Testbericht Ontwortelde boom";
 String SMScode13 = "Alle sensoren van ontwortelde boom zijn stuk!";
 
