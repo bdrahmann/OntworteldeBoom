@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class FragmentTab1 extends Fragment {
     static final String TAG = "BDR";
@@ -49,9 +51,6 @@ public class FragmentTab1 extends Fragment {
     public TextView Sensor1;
     public TextView Sensor2;
     public TextView Sensor3;
-    public TextView Sensor1Gem;
-    public TextView Sensor2Gem;
-    public TextView Sensor3Gem;
     public TextView Droog1;
     public TextView Droog2;
     public TextView Droog3;
@@ -59,12 +58,15 @@ public class FragmentTab1 extends Fragment {
     public TextView SMSstatus;
     public TextView SMSbericht;
 
+    public ToggleButton Handpomp1;
+    public ToggleButton Handpomp2;
     public Button ResetA;
 
     private Handler vHandler = new Handler();
     private Handler sHandler = new Handler();
     int progressvlotterstatus = 0;
     int progresssensorstatus = 0;
+    String S1,S2;
 
 
     @Override
@@ -111,9 +113,6 @@ public class FragmentTab1 extends Fragment {
         Sensor1 = (TextView)myView.findViewById(R.id.tVSensor1);
         Sensor2 = (TextView)myView.findViewById(R.id.tVSensor2);
         Sensor3 = (TextView)myView.findViewById(R.id.tVSensor3);
-        Sensor1Gem = (TextView)myView.findViewById(R.id.tVGem1);
-        Sensor2Gem = (TextView)myView.findViewById(R.id.tVGem2);
-        Sensor3Gem = (TextView)myView.findViewById(R.id.tVGem3);
         Droog1 = (TextView)myView.findViewById(R.id.tVDroog1);
         Droog2 = (TextView)myView.findViewById(R.id.tVDroog2);
         Droog3 = (TextView)myView.findViewById(R.id.tVDroog3);
@@ -121,11 +120,26 @@ public class FragmentTab1 extends Fragment {
         SMSstatus = (TextView)myView.findViewById(R.id.tvSMSStatus);
         SMSbericht = (TextView)myView.findViewById(R.id.tvSMSbericht);
 
+        Handpomp1 = (ToggleButton)myView.findViewById(R.id.btnhandpomp1);
+        Handpomp1.setOnClickListener(SetHandpomp);
+        Handpomp2 = (ToggleButton)myView.findViewById(R.id.btnhandpomp2);
+        Handpomp2.setOnClickListener(SetHandpomp);
         ResetA = (Button)myView.findViewById(R.id.btReset);
         ResetA.setOnClickListener(GoResetArduino);
 
         return myView;
     }
+
+    View.OnClickListener SetHandpomp = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {   // Reset Arduino
+            if (Handpomp1.isChecked()) S1 = "1";
+            else S1 = "0";
+            if (Handpomp2.isChecked()) S2 = "1";
+            else S2 = "0";
+            ((MainActivity)getActivity()).sendMessage("w" + S1 + S2 +"#");
+        }
+    };
 
     View.OnClickListener GoResetArduino = new View.OnClickListener() {
         @Override

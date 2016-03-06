@@ -105,6 +105,8 @@ const int druppel3 = 2;			// Pin A2 is uitlezen druppelsensor3
 // Globale waarde pompregeling
 int PompStatus = 0;				// toestand van de Pompstatus
 int PompStatusoud = 0;			// de vorige Pompstatus
+int handpomp1 = 0;		// geeft aan of pomp1 in handmatige status uit/aan is
+int handpomp2 = 0;		// geeft aan of pomp2 in handmatige status uit/aan is
 boolean sw_laagwater = true;	// begin met laagwater
 boolean laagwateroud;			// vorige meting laagwater
 int laagwater_delay = 0;	// tijdsvertraging in laagwater om dender te voorkomen (10000)

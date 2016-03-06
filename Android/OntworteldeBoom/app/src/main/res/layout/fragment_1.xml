@@ -473,16 +473,6 @@
                 android:text="waarde"  />
 
             <TextView
-                android:id="@+id/tVgem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView12"
-                android:layout_marginLeft="26dp"
-                android:layout_toRightOf="@+id/textView12"
-                android:textSize="10sp"
-                android:text="gemiddeld"/>
-
-            <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -501,20 +491,11 @@
                 android:hint="sensor1"/>
 
             <TextView
-                android:id="@+id/tVGem1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView8"
-                android:layout_toRightOf="@+id/textView8"
-                android:layout_marginLeft="100dp"
-                android:hint="gem1" />
-
-            <TextView
                 android:id="@+id/tVDroog1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView8"
-                android:layout_marginLeft="180dp"
+                android:layout_marginLeft="120dp"
                 android:layout_toRightOf="@+id/textView8"
                 android:hint="droog1"/>
 
@@ -537,20 +518,11 @@
                 android:hint="sensor2"/>
 
             <TextView
-                android:id="@+id/tVGem2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView9"
-                android:layout_toRightOf="@+id/textView9"
-                android:layout_marginLeft="100dp"
-                android:hint="gem2" />
-
-            <TextView
                 android:id="@+id/tVDroog2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView9"
-                android:layout_marginLeft="180dp"
+                android:layout_marginLeft="120dp"
                 android:layout_toRightOf="@+id/textView9"
                 android:hint="droog2"/>
 
@@ -573,20 +545,11 @@
                 android:hint="sensor3"/>
 
             <TextView
-                android:id="@+id/tVGem3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_toRightOf="@+id/textView1"
-                android:layout_marginLeft="100dp"
-                android:hint="gem3" />
-
-            <TextView
                 android:id="@+id/tVDroog3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView1"
-                android:layout_marginLeft="180dp"
+                android:layout_marginLeft="120dp"
                 android:layout_toRightOf="@+id/textView1"
                 android:hint="droog3"/>
 
@@ -635,6 +598,38 @@
                 android:layout_alignLeft="@+id/tvSMSStatus"
                 android:hint="SMS bericht"/>
 
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_alignParentEnd="true"
+                android:text="Handbediening"
+                />
+
+            <ToggleButton
+                android:id="@+id/btnhandpomp1"
+                android:checked="false"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView42"
+                android:layout_marginTop="10dp"
+                android:layout_alignStart="@+id/btReset"
+                android:textOff="Pomp1 Off"
+                android:textOn="Pomp 1 On" />
+
+            <ToggleButton
+                android:id="@+id/btnhandpomp2"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnhandpomp1"
+                android:layout_marginTop="10dp"
+                android:layout_alignStart="@+id/btReset"
+                android:textOff="Pomp2 Off"
+                android:textOn="Pomp 2 On" />
+
 
             <Button
                 android:id="@+id/btReset"
@@ -645,9 +640,11 @@
                 android:background="#ffeb3b"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_alignParentEnd="true" />
+
+
+
 
         </RelativeLayout>
 

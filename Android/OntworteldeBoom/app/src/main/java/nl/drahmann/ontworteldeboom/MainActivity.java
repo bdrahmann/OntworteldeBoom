@@ -169,6 +169,7 @@ public class MainActivity extends FragmentActivity {
 		 * 28 Arduino send SMS bericht
 		 * 29 Arduino send status vlotterdelay
 		 * 30 Arduino send status sensordelay
+		 * 31 Arduino send status handpompen
 		 *
 
 		 */
@@ -406,13 +407,13 @@ public class MainActivity extends FragmentActivity {
                 fragment2.onSensorChanged();
                 break;
             case 20:    // set de gem Sensor 1 info in het veld
-                fragment1.Sensor1Gem.setText(info);
+
                 break;
             case 21:  // set de gem Sensor 2 info in het veld
-                fragment1.Sensor2Gem.setText(info);
+
                 break;
             case 22: // set de gem Sensor 3 info in het veld
-                fragment1.Sensor3Gem.setText(info);
+
                 break;
             case 23:    // set de droog 1 info in het veld
                 fragment1.Droog1.setText(info);
@@ -487,7 +488,7 @@ public class MainActivity extends FragmentActivity {
                 Status = Integer.parseInt(info.substring(eerste, tweede));
                 eerste = tweede + 1;
                 max = Integer.parseInt(info.substring(eerste));
-                if (Status == 0)  {
+                if (Status < 5)  {  // moet eigenlijk 0 zijn, maar dat is niet altijd zo
                     fragment1.toon_sensor_delay.setVisibility(View.VISIBLE);
                     fragment1.Opm03.setVisibility(View.VISIBLE);
                     fragment1.toon_sensor_delay.setMax(max);
@@ -498,6 +499,13 @@ public class MainActivity extends FragmentActivity {
                     fragment1.toon_sensor_delay.setVisibility(View.INVISIBLE);
                     fragment1.Opm03.setVisibility(View.INVISIBLE);
                 }
+                break;
+
+            case 31:        // status handpompen
+                if (info.substring(0,1).equals("0")) fragment1.Handpomp1.setChecked(false);
+                else fragment1.Handpomp1.setChecked(true);
+                if (info.substring(1).equals("0")) fragment1.Handpomp2.setChecked(false);
+                else fragment1.Handpomp2.setChecked(true);
                 break;
 
             // volgende case

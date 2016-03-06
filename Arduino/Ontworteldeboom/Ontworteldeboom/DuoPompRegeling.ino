@@ -58,8 +58,7 @@ void DuoPompRegeling() {
 			PompStatus = 2;
 			break;
 		case 8:	// zet het systeem uit
-			// TODO zet het systeem uit
-			digitalWrite(Pig, LOW);	// zet de PompInGebruik uit
+			// er hoeft niks meer te gebeuren
 			break;
 		default: // foutsituatie
 			// TODO geef foutboodschap

@@ -9,18 +9,21 @@
 	f = geef de files op de SD card door aan Android. Return 11 met de files.
 	g = geef de inhoud van de file door aan Android. Return 12 met de inhoud.
 	h = geef Humidity en temperatuur door. Return 04 met Humidity en 05 met Temperatuur.
+	i =
 	j = set de opgestuurde datum en tijd in RTC. Return 3 met datum en 8 met tijd.
-	l = geef LUX door. Return 09 met LUX waarde
 	k = lees de Arduino settings uit. Meerdere settings in de info. Return
+	l = geef LUX door. Return 09 met LUX waarde
 	m = stuur de tijd op. Return 8 met tijd.
 	n = geef de raindrop droog code door. Return: 23,24 of 25 + de droog code.
 	o = stuur de datum op. Return 3 met datum.
+	p =
 	q = delete de file 'bestand' van SD card. Return 13 met bestandsnaam.
 	r = geef status VlotterLaag door. Return 2L of 2H
 	s = lees SDA Array uit over SD card actie. Return 06 en 07 met Schijfino en bestandsnaam
 	t = lees telefoonnummer uit. Return 14 met telefoonnummer
 	u = stuur PompStatus. Return: "15" met PompStatus
 	v = stuur Pompnummer. Return: "16" met Pompnummer.
+	w = zet pomp 1 of 2 handmatig aan of uit in status 8. Return: "31" met pompnummers en 0/1 voor uit/aan
 	x = 
 	y = opnieuw zenden bepaalde gegevens bij oa opstart Android app
 	z = reset Arduino.
@@ -97,15 +100,15 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 		ReactieOpj(Androidinfo);	// set de datum en tijd in RTC
 		ReactieOpo();				// stuur de nieuwe datum op
 	}
-    
-     if (s == 'l') {
-      ReactieOpl();  // geef de lux door door aan de smartphone
-    }
-	
+		
 	 if (s == 'k') {
 		ReactieOpk(Androidinfo);  // geef de pref file door door aan de smartphone
 	 }
     
+	 if (s == 'l') {
+		 ReactieOpl();  // geef de lux door door aan de smartphone
+	 }
+
     if (s == 'q') {
       ReactieOpq(Androidinfo);  // delete de file op de SD card
     }
@@ -124,6 +127,10 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 	
 	if (s == 'u') {
 		ReactieOpu();  // lees PompStatus uit
+	}
+
+	if (s == 'w') {		// zet pomp 1 of 2 handmatig aan of uit
+		ReactieOpw(Androidinfo);
 	}
 	
 	if (s == 'y') {		// stuur bepaalde gegevens nogmaals
@@ -538,6 +545,31 @@ void ReactieOpv() {		// stuur Pompnummer. Return: "16" met Pompnummer.
 
 }
 
+void ReactieOpw(String tydelijk) {		// zet pomp 1 of 2 handmatig aan of uit
+	PompStatus = 8; //  naar status 8
+	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten, mocht die nog aan staan
+	//digitalWrite(Pomp1, LOW);	//  zet beide pompen uit
+	//digitalWrite(Pomp2, LOW);	
+	if (tydelijk.substring(0,1).equals("0")) {
+		digitalWrite(Pomp1, LOW);	//  zet pomp 1 uit
+		handpomp1 = 0;
+	}
+	else {
+		digitalWrite(Pomp1, HIGH);	// zet pomp 1 aan
+		handpomp1 = 1;
+	}
+	if (tydelijk.substring(1).equals("0")) {
+		digitalWrite(Pomp2, LOW);	//  zet pomp 2 uit
+		handpomp2 = 0;
+	}
+	else {
+		digitalWrite(Pomp2, HIGH);	// zet pomp 2 aan
+		handpomp2 = 1;
+	}
+
+	Sendkode31();	// stuur de info terug
+}
+
 void ReactieOpy() {		// stuur bepaalde berichten opnieuw
 	ReactieOps();		// schijfinfo
 	ReactieOpa(SMScode);
@@ -547,6 +579,7 @@ void ReactieOpy() {		// stuur bepaalde berichten opnieuw
 	ReactieOpv();	// pompnummer
 	ReactieOpr();	// stuur vlotterstatus op
 	Sendkode26();	// stuur de vaste gegevens
+	Sendkode31();	// stuur de handbedieningsstatus
 
 }
 
@@ -556,7 +589,9 @@ void ReactieOpz() {		// restart Arduino door initialisatie gegevens
 	PompStatusoud = 0;			// de vorige Pompstatus
 	sw_laagwater = true;	// begin met laagwater
 	digitalWrite(Pomp1, LOW);		// zet pomp1 uit. De pompen zijn active LOW
+	handpomp1 = 0;
 	digitalWrite(Pomp2, LOW);		// zet pomp2 uit
+	handpomp2 = 0;
 	laagwateroud = digitalRead(VlotterLaag);	// lees de beginstand van de vlotter
 	WriteSDcard1("00");
 	logfile.println(F("0,0,Reset arduino"));
@@ -564,6 +599,7 @@ void ReactieOpz() {		// restart Arduino door initialisatie gegevens
 	ReactieOpy();	// stuur bepaalde berichten opnieuw
 	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
+	Sendkode31();	// zet de handschakelaars in de juiste stand
 }
 
 void Sendkode26() {	// alle vaste gegevens naar Android sturen
@@ -573,17 +609,17 @@ void Sendkode26() {	// alle vaste gegevens naar Android sturen
 	delay(20);
 }
 
-void Sendkode29(uint32_t status, int max) { // stuur de delaystatus op
-	Serial.print("status en max = ");
-	Serial.print(status);
-	Serial.println(max);
+void Sendkode29(uint32_t status, int max) { // stuur de delaystatus op van laagwater
+	//Serial.print("status en max = ");
+	//Serial.print(status);
+	//Serial.println(max);
 	String s = String(status / 1000);
 	String m = String(max / 1000);
 	Serial3.print("29" + s + "$" + m + "#");
 	delay(20);
 }
 
-void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op
+void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op van droogtijd
 	Serial.print("status en max = ");
 	Serial.print(status);
 	Serial.println(max);
@@ -591,4 +627,12 @@ void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op
 	String m = String(max / 1000);
 	Serial3.print("30" + s + "$" + m + "#");
 	delay(20);
+}
+
+void Sendkode31() {
+	Serial.print("handpomp1 = ");
+	Serial.println(handpomp1);
+	Serial.print("handpomp2 = ");
+	Serial.println(handpomp2);
+	Serial3.print("31" + String(handpomp1) + String(handpomp2) + "#");
 }
