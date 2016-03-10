@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stuur SMS"
+        android:id="@+id/cbxSMS"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Telefoonnummer:"
+        android:layout_marginStart="15dp"
+        android:layout_alignBaseline="@+id/cbxSMS"
+        android:layout_toEndOf="@+id/cbxSMS" />
+
+    <EditText
+        android:id="@+id/ettelNummer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="mobiel (10 cijfers)"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/textView30" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cbxSMS"
+        android:text="Drooglevel1:"
+        android:layout_below="@+id/cbxSMS"
+        android:layout_alignBaseline="@+id/etdroogLevel1"  />
+
+    <EditText
+        android:id="@+id/etdroogLevel1"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint=" (0 - 1023)"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/textView31"
+        android:layout_marginStart="10dp"
+        android:layout_below="@+id/ettelNummer"  />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cbxSMS"
+        android:layout_below="@+id/textView31"
+        android:layout_alignBaseline="@+id/etdroogLevel2"
+        android:text="Drooglevel2:" />
+
+    <EditText
+        android:id="@+id/etdroogLevel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=" (0 - 1023)"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/textView32"
+        android:layout_below="@+id/etdroogLevel1"
+        android:layout_alignStart="@+id/etdroogLevel1" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cbxSMS"
+        android:layout_below="@+id/textView32"
+        android:layout_alignBaseline="@+id/etdroogLevel3"
+        android:text="Drooglevel3:" />
+
+    <EditText
+        android:id="@+id/etdroogLevel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=" (0 - 1023)"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/textView33"
+        android:layout_below="@+id/etdroogLevel2"
+        android:layout_alignStart="@+id/etdroogLevel1" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cbxSMS"
+        android:layout_below="@+id/textView33"
+        android:layout_alignBaseline="@+id/etdroogTijd"
+        android:text="Droogtijd:" />
+
+    <EditText
+        android:id="@+id/etdroogTijd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="sec.max 2 min"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/textView34"
+        android:layout_below="@+id/etdroogLevel3"
+        android:layout_alignStart="@+id/etdroogLevel1" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cbxSMS"
+        android:layout_below="@+id/textView34"
+        android:layout_alignBaseline="@+id/etvlotterDelay"
+        android:text="Vlotterdelay:" />
+
+    <EditText
+        android:id="@+id/etvlotterDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="sec. max 2 min"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/textView37"
+        android:layout_below="@+id/etdroogTijd"
+        android:layout_alignStart="@+id/etdroogLevel1" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="datum en tijd:"
+        android:layout_above="@+id/etdatum_tijd"
+        android:layout_alignStart="@+id/etdatum_tijd"
+        android:layout_marginStart="5dp"/>
+
+    <EditText
+        android:id="@+id/etdatum_tijd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="datum en tijd op Arduino"
+          android:layout_above="@+id/btnDatestore"
+        android:layout_alignStart="@+id/btnDatestore" />
+
+    <EditText
+        android:id="@+id/etdruppelSpeling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/etdroogTijd"
+        android:layout_alignBaseline="@+id/etdroogTijd"
+        android:text="5"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/etsamples"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_toEndOf="@+id/etdruppelSpeling"
+        android:layout_alignBaseline="@+id/etdroogTijd"
+        android:text="20"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/btnDatestore"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" set Androidtijd op Arduino "
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true" />
+
+    <Button
+        android:id="@+id/btnStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Store op Arduino"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"/>
+
+
+</RelativeLayout>
