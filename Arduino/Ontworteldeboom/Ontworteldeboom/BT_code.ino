@@ -51,13 +51,11 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
     {
       inChar = Serial3.read();
       inBuffer = inBuffer + String(inChar);
-      // Serial.print("inChar = ");
-      // Serial.println(inChar);
     }
 
     s = inBuffer.charAt(0);
     Androidinfo = inBuffer.substring(1, inBuffer.length() - 1);
-	Serial.print("kode = ");
+	Serial.print("Ingelezen kode uit Android = ");
     Serial.print(s);
     Serial.print("   Androidinfo = ");
     Serial.println(Androidinfo);
@@ -77,7 +75,7 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 	}
     
     if (s == 'd') {
-      ReactieOpd();  // geef de rainDrop door door aan de smartphone
+      ReactieOpd();  // geef de rainDrop door aan de smartphone
     }
 	
 	 if (s == 'e') {
@@ -137,7 +135,7 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 		ReactieOpy();
 	}
 	
-	if (s == 'z') { 
+	if (s == 'z') {		// reset Arduino
 		// softwareReset( WDTO_60MS);	// restart in 60 milliseconds. Werkt niet op alle MEGA's
 		ReactieOpz();
 	}
@@ -245,7 +243,7 @@ void printDirectory(File dir, int numTabs) {
 	}
 }
 
-void ReactieOpg(String bestand) {
+void ReactieOpg(String bestand) {	// geef de inhoud van de gekozen file door
 	int L = bestand.length() + 1;
 	char in;
 	Serial.print("bestand: ");
@@ -406,7 +404,7 @@ void SchrijfEprom(int b, int e, String info) {		// schrijf de info in de EPROM
 }
 
 void ReactieOpl() { //stuur de lux door naar de smartphone
-					// hier later de error code aan toevoegen
+					// TODO hier later de error code aan toevoegen
 	String tydelijk;
 	tydelijk = "09" + Light + "#";
 	Serial3.print(tydelijk);
@@ -546,24 +544,28 @@ void ReactieOpv() {		// stuur Pompnummer. Return: "16" met Pompnummer.
 }
 
 void ReactieOpw(String tydelijk) {		// zet pomp 1 of 2 handmatig aan of uit
+	String PS;
 	PompStatus = 8; //  naar status 8
 	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de Sensor progressbar uit te zetten, mocht die nog aan staan
-	//digitalWrite(Pomp1, LOW);	//  zet beide pompen uit
-	//digitalWrite(Pomp2, LOW);	
+	
 	if (tydelijk.substring(0,1).equals("0")) {
 		digitalWrite(Pomp1, LOW);	//  zet pomp 1 uit
+		PS = "In ReactieOpw is pomp 1 uitgezet. "; Serial.println(PS);
 		handpomp1 = 0;
 	}
 	else {
 		digitalWrite(Pomp1, HIGH);	// zet pomp 1 aan
+		PS = "In ReactieOpw is pomp 1 aangezet. "; Serial.println(PS);
 		handpomp1 = 1;
 	}
 	if (tydelijk.substring(1).equals("0")) {
 		digitalWrite(Pomp2, LOW);	//  zet pomp 2 uit
+		PS = "In ReactieOpw is pomp 2 uitgezet. "; Serial.println(PS);
 		handpomp2 = 0;
 	}
 	else {
 		digitalWrite(Pomp2, HIGH);	// zet pomp 2 aan
+		PS = "In ReactieOpw is pomp 2 aangezet. "; Serial.println(PS);
 		handpomp2 = 1;
 	}
 
@@ -584,13 +586,16 @@ void ReactieOpy() {		// stuur bepaalde berichten opnieuw
 }
 
 void ReactieOpz() {		// restart Arduino door initialisatie gegevens
+	String PS;
 	Pig = Pomp1;
 	PompStatus = 0;				// toestand van de Pompstatus
 	PompStatusoud = 0;			// de vorige Pompstatus
 	sw_laagwater = true;	// begin met laagwater
 	digitalWrite(Pomp1, LOW);		// zet pomp1 uit. De pompen zijn active LOW
+	PS = "In ReactieOpz is pomp 1 uitgezet. "; Serial.println(PS);
 	handpomp1 = 0;
 	digitalWrite(Pomp2, LOW);		// zet pomp2 uit
+	PS = "In ReactieOpz is pomp 2 uitgezet. "; Serial.println(PS);
 	handpomp2 = 0;
 	laagwateroud = digitalRead(VlotterLaag);	// lees de beginstand van de vlotter
 	WriteSDcard1("00");
@@ -620,9 +625,9 @@ void Sendkode29(uint32_t status, int max) { // stuur de delaystatus op van laagw
 }
 
 void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op van droogtijd
-	// Serial.print("status en max = ");
-	// Serial.print(status);
-	// Serial.println(max);
+	Serial.print("droogtijdstatus en max = ");
+	Serial.print(status);
+	Serial.println(max);
 	String s = String(status / 1000);
 	String m = String(max / 1000);
 	Serial3.print("30" + s + "$" + m + "#");

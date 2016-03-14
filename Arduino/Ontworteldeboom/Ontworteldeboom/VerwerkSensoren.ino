@@ -5,6 +5,7 @@
 */
 
 void LeesRaindropSensor() {    // lees de Raindropsensoren
+	String PS;
 	Rain1 = analogRead(druppel1);
 	Rain2 = analogRead(druppel2);
 	Rain3 = analogRead(druppel3);
@@ -36,6 +37,7 @@ void LeesRaindropSensor() {    // lees de Raindropsensoren
 				}
 				digitalWrite(9,LOW);	// zet pomp 1 uit
 				digitalWrite(10,HIGH);	// zet pomp 2 aan
+				PS = "In LeesRaindropSensor is pomp 1 uitgezet, en pomp 2 aangezet"; Serial.println(PS);
 			};
 }	// einde LeesRaindropSensor
 
@@ -61,6 +63,9 @@ void LeesRaindropSensoropDroog() { // vervanger van LeesRaindropSensor
   if (Rain3 < Drooglevel3) droogteller = droogteller + 1;
 
   if (droogteller > 1) Droog = true; else Droog = false;      // kijk of de sensor droog staat
+
+  String tydelijk = "sensor1: " + String(Rain1) + " sensor2: " + String(Rain2) + " sensor3: " + String(Rain3) + " dus Droog = " + Droog;
+  Serial.println(tydelijk);
    
 } // einde LeesRaindropSensoropDroog
 

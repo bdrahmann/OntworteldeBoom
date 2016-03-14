@@ -172,17 +172,20 @@ const int Simpower = 7;		// voor de sim900 kaart Shield B-v1.1
 // const int Simpower = 9;  // voor de "oude" Sim900 kaart
 
 void setup() {
+	String PS;		// is de PrintString
 	
 	pinMode(Pomp1, OUTPUT);
 	digitalWrite(Pomp1, LOW);		// zet pomp1 uit. De pompen zijn active LOW
 	pinMode(Pomp2, OUTPUT);
 	digitalWrite(Pomp2, LOW);		// zet pomp2 uit
-
+	
 	laagwateroud = digitalRead(VlotterLaag);	// lees de beginstand van de vlotter
 	
 	Serial.begin(9600);			// output via serial monitor
 	Serial1.begin(19200);		// connection to GPRS network
 	Serial3.begin(19200);	// Default connection rate 
+	Serial.println();
+	PS = "In setup is pomp 1 uitgezet. In setup is pomp 2 uitgezet"; Serial.println(PS);
 	dht.begin();
 
 	// initialiseer de Running Average
@@ -250,9 +253,6 @@ void setup() {
 	laagwater_delay = LeesEprom(35, 38).toInt()*1000;
 
 
-	//Serial.println(Drooglevel1);
-	//StuurBericht("12");	// ter test
-
 	ReactieOpy();	// stuur bepaalde berichten opnieuw
 	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
@@ -273,7 +273,7 @@ void loop() {
 	LeesRaindropSensoropDroog();  // zijn vervanger
 
 	// ControleerSensoren();	// controleer of de sensoren in orde zijn
- // routine uitgezet omdat met andere filosofie gewerkt wordt
+	// routine uitgezet omdat met andere filosofie gewerkt wordt
 	
 	LaagWater();	// routine om de laagwatervlotter uit te lezen
 					
