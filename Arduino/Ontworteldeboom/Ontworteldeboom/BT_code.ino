@@ -547,7 +547,7 @@ void ReactieOpv() {		// stuur Pompnummer. Return: "16" met Pompnummer.
 
 void ReactieOpw(String tydelijk) {		// zet pomp 1 of 2 handmatig aan of uit
 	PompStatus = 8; //  naar status 8
-	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten, mocht die nog aan staan
+	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de Sensor progressbar uit te zetten, mocht die nog aan staan
 	//digitalWrite(Pomp1, LOW);	//  zet beide pompen uit
 	//digitalWrite(Pomp2, LOW);	
 	if (tydelijk.substring(0,1).equals("0")) {
@@ -620,9 +620,9 @@ void Sendkode29(uint32_t status, int max) { // stuur de delaystatus op van laagw
 }
 
 void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op van droogtijd
-	Serial.print("status en max = ");
-	Serial.print(status);
-	Serial.println(max);
+	// Serial.print("status en max = ");
+	// Serial.print(status);
+	// Serial.println(max);
 	String s = String(status / 1000);
 	String m = String(max / 1000);
 	Serial3.print("30" + s + "$" + m + "#");
@@ -630,9 +630,10 @@ void Sendkode30(uint32_t status, int max) { // stuur de delaystatus op van droog
 }
 
 void Sendkode31() {
-	Serial.print("handpomp1 = ");
-	Serial.println(handpomp1);
-	Serial.print("handpomp2 = ");
-	Serial.println(handpomp2);
+	// Serial.print("handpomp1 = ");
+	// Serial.println(handpomp1);
+	// Serial.print("handpomp2 = ");
+	// Serial.println(handpomp2);
 	Serial3.print("31" + String(handpomp1) + String(handpomp2) + "#");
+	delay(20);
 }
