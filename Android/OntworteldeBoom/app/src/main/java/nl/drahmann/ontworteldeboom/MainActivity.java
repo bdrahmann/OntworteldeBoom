@@ -60,7 +60,7 @@ import nl.drahmann.mybtlibrary.chat.Constants;
  */
 public class MainActivity extends FragmentActivity {
 
-    public static final String TAG = "MainActivity";
+    public static final String TAG = "Main";
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -222,11 +222,13 @@ public class MainActivity extends FragmentActivity {
         try {
             s = data.substring(0, 2); // eerste 2 posities bevat de kode
         } catch (StringIndexOutOfBoundsException siobe) { // omzetten is niet gelukt
-            Log.d(TAG, " M144 omzetten kodestring niet gelukt. data = " + data);
+            Log.d(TAG, " M225 omzetten kodestring niet gelukt. data = " + data);
             return;
         }
+
         String info = data.substring(2); // de recordinformatie
-        // Log.d(TAG, " M374 info = " + info);
+        if (s.equals("15"))
+        Log.d(TAG, " M229 kode = " + s + " info = " + info);
         try {
             kode = Integer.parseInt(s); // omzetten naar integer
         } catch (NumberFormatException ex) { // omzetten is niet gelukt

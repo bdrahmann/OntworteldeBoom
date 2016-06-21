@@ -239,8 +239,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="10dp"
             android:textSize="10sp"
             android:text="schijf:" />
 
@@ -250,8 +250,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:hint="schijf"
-            android:layout_alignLeft="@+id/tvBestand"
-            android:layout_toRightOf="@+id/textView5"
+            android:layout_alignStart="@+id/tvBestand"
             android:layout_toEndOf="@+id/textView5"
             android:layout_alignBottom="@+id/textView5" />
 
@@ -259,7 +258,7 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView5"
+            android:layout_alignStart="@+id/textView5"
             android:layout_below="@+id/textView5"
             android:textSize="10sp"
             android:text="bestand:" />
@@ -270,10 +269,8 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:hint="bestand"
-            android:layout_toRightOf="@+id/textView6"
             android:layout_toEndOf="@+id/textView6"
             android:layout_alignBottom="@+id/textView6"
-            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp" />
 
         <TextView
@@ -281,8 +278,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView5"
-            android:layout_marginLeft="120dp"
+            android:layout_toEndOf="@+id/textView5"
+            android:layout_marginStart="100dp"
             android:layout_alignBottom="@+id/textView5"
             android:text="stuur SMS:" />
 
@@ -291,9 +288,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView10"
             android:layout_toEndOf="@+id/textView10"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_alignBottom="@+id/textView5"
             android:hint="SMS ja/nee" />
 
@@ -302,8 +298,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView10"
-            android:layout_alignLeft="@+id/textView10"
+            android:layout_toEndOf="@+id/textView10"
+            android:layout_alignStart="@+id/textView10"
             android:layout_alignBottom="@+id/textView6"
             android:text="Telefoonnr:" />
 
@@ -312,9 +308,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView11"
             android:layout_toEndOf="@+id/textView11"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_alignBottom="@+id/textView6"
             android:hint="nummer" />
 
@@ -323,8 +318,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/tvADatum"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/tvADatum"
             android:layout_alignBottom="@+id/textView5"
             android:text="Arduino datum:" />
 
@@ -334,8 +329,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="130dp"
             android:layout_alignBottom="@+id/textView5"
             android:hint="datum" />
 
@@ -359,6 +353,15 @@
             android:layout_alignBottom="@+id/textView6"
             android:hint="tijd" />
 
+        <Button
+            android:id="@+id/btReset"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="Reset Arduino"
+            android:background="#ffeb3b"
+            android:layout_alignTop="@+id/tvADatum"
+            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>
@@ -367,19 +370,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:id="@+id/Kopje2"
         android:background="@drawable/customborder" >
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="219dp"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginStart="10dp"
                 android:text="Waterniveau :" />
 
@@ -423,7 +426,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView2"
                 android:layout_below="@+id/textView2"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="3dp"
                 android:text="Temperatuur:" />
 
             <TextView
@@ -441,7 +444,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView2"
                 android:layout_below="@+id/textView4"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="3dp"
                 android:text="Humidity:" />
 
             <TextView
@@ -459,7 +462,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView2"
                 android:layout_below="@+id/textView3"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="3dp"
                 android:text="Lux:" />
 
             <TextView
@@ -467,8 +470,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView7"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/textView4"
                 android:hint="lux"/>
 
 
@@ -479,13 +482,13 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.69" >
+            android:layout_weight="2.98" >
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:text="Sensor 1 :" />
 
             <TextView
@@ -512,7 +515,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView8"
                 android:layout_below="@+id/textView8"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="3dp"
                 android:text="Sensor 2 :" />
 
             <TextView
@@ -539,7 +542,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView8"
                 android:layout_below="@+id/textView9"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="3dp"
                 android:text="Sensor 3 :" />
 
             <TextView
@@ -565,33 +568,20 @@
                 android:checked="false"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_alignStart="@+id/btReset"
                 android:textOff="Pomp1 Off"
-                android:textOn="Pomp 1 On" />
+                android:textOn="Pomp 1 On"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
 
             <ToggleButton
                 android:id="@+id/btnhandpomp2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btnhandpomp1"
-                android:layout_marginTop="1dp"
-                android:layout_alignStart="@+id/btReset"
                 android:textOff="Pomp2 Off"
-                android:textOn="Pomp 2 On" />
+                android:textOn="Pomp 2 On"
+                android:layout_alignTop="@+id/tVDroog2"
+                android:layout_alignStart="@+id/btnhandpomp1" />
 
-
-            <Button
-                android:id="@+id/btReset"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:text="Reset Arduino"
-                android:background="#ffeb3b"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_alignParentEnd="true" />
 
             <TextView
                 android:id="@+id/textView15"
