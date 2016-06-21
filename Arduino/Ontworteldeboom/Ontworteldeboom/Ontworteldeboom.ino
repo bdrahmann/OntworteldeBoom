@@ -183,7 +183,7 @@ void setup() {
 	
 	Serial.begin(9600);			// output via serial monitor
 	Serial1.begin(19200);		// connection to GPRS network
-	Serial3.begin(19200);	// Default connection rate 
+	Serial3.begin(19200);		// Default connection rate BT
 	Serial.println();
 	PS = "In setup is pomp 1 uitgezet. In setup is pomp 2 uitgezet"; Serial.println(PS);
 	dht.begin();

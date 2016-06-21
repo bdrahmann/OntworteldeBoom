@@ -65,7 +65,7 @@ void LeesRaindropSensoropDroog() { // vervanger van LeesRaindropSensor
   if (droogteller > 1) Droog = true; else Droog = false;      // kijk of de sensor droog staat
 
   String tydelijk = "sensor1: " + String(Rain1) + " sensor2: " + String(Rain2) + " sensor3: " + String(Rain3) + " dus Droog = " + Droog;
-  Serial.println(tydelijk);
+  // Serial.println(tydelijk);
    
 } // einde LeesRaindropSensoropDroog
 

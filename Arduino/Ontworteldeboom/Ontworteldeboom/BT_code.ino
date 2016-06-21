@@ -573,6 +573,7 @@ void ReactieOpw(String tydelijk) {		// zet pomp 1 of 2 handmatig aan of uit
 }
 
 void ReactieOpy() {		// stuur bepaalde berichten opnieuw
+	
 	ReactieOps();		// schijfinfo
 	ReactieOpa(SMScode);
 	ReactieOpt(telefoonnummer);
