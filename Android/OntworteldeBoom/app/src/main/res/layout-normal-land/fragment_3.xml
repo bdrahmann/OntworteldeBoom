@@ -9,15 +9,16 @@
         android:layout_height="wrap_content"
         android:text="Stuur SMS"
         android:id="@+id/cbxSMS"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         android:layout_marginStart="20dp"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/textView30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Telefoonnummer:"
+        android:text="Tel.nummer:"
         android:layout_marginStart="15dp"
         android:layout_alignBaseline="@+id/cbxSMS"
         android:layout_toEndOf="@+id/cbxSMS" />
@@ -28,7 +29,8 @@
         android:layout_height="wrap_content"
         android:hint="mobiel (10 cijfers)"
         android:inputType="number"
-        android:layout_toEndOf="@+id/textView30" />
+        android:layout_toEndOf="@+id/textView30"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/textView31"
@@ -36,18 +38,18 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/cbxSMS"
         android:text="Drooglevel1:"
-        android:layout_below="@+id/cbxSMS"
         android:layout_alignBaseline="@+id/etdroogLevel1"  />
 
     <EditText
         android:id="@+id/etdroogLevel1"
-        android:layout_width="150dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:hint=" (0 - 1023)"
         android:inputType="number"
         android:layout_toEndOf="@+id/textView31"
         android:layout_marginStart="10dp"
-        android:layout_below="@+id/ettelNummer"  />
+        android:layout_below="@+id/ettelNummer"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/textView32"
@@ -66,7 +68,8 @@
         android:inputType="number"
         android:layout_toEndOf="@+id/textView32"
         android:layout_below="@+id/etdroogLevel1"
-        android:layout_alignStart="@+id/etdroogLevel1" />
+        android:layout_alignStart="@+id/etdroogLevel1"
+        android:textSize="12dp"/>
 
     <TextView
         android:id="@+id/textView33"
@@ -85,7 +88,8 @@
         android:inputType="number"
         android:layout_toEndOf="@+id/textView33"
         android:layout_below="@+id/etdroogLevel2"
-        android:layout_alignStart="@+id/etdroogLevel1" />
+        android:layout_alignStart="@+id/etdroogLevel1"
+        android:textSize="12dp"/>
 
     <TextView
         android:id="@+id/textView34"
@@ -104,16 +108,16 @@
         android:inputType="number"
         android:layout_toEndOf="@+id/textView34"
         android:layout_below="@+id/etdroogLevel3"
-        android:layout_alignStart="@+id/etdroogLevel1" />
+        android:layout_alignStart="@+id/etdroogLevel1"
+        android:textSize="12dp"/>
 
     <TextView
         android:id="@+id/textView37"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/cbxSMS"
-        android:layout_below="@+id/textView34"
-        android:layout_alignBaseline="@+id/etvlotterDelay"
-        android:text="Vlotterdelay:" />
+        android:text="Vlotterdelay:"
+        android:layout_alignBaseline="@+id/etdroogLevel1"
+        android:layout_alignStart="@+id/ettelNummer" />
 
     <EditText
         android:id="@+id/etvlotterDelay"
@@ -121,9 +125,11 @@
         android:layout_height="wrap_content"
         android:hint="sec. max 2 min"
         android:inputType="number"
-        android:layout_toEndOf="@+id/textView37"
-        android:layout_below="@+id/etdroogTijd"
-        android:layout_alignStart="@+id/etdroogLevel1" />
+        android:textSize="12dp"
+        android:layout_toEndOf= "@+id/textView37"
+        android:layout_marginStart="10dp"
+        android:layout_alignBaseline="@+id/etdroogLevel1"
+         />
 
     <TextView
         android:id="@+id/textView39"
@@ -132,15 +138,18 @@
         android:text="datum en tijd:"
         android:layout_above="@+id/etdatum_tijd"
         android:layout_alignStart="@+id/etdatum_tijd"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginStart="5dp"
+        />
 
     <EditText
         android:id="@+id/etdatum_tijd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="datum en tijd op Arduino"
-          android:layout_above="@+id/btnDatestore"
-        android:layout_alignStart="@+id/btnDatestore" />
+        android:layout_above="@+id/btnDatestore"
+        android:layout_alignStart="@+id/btnDatestore"
+        android:textSize="12dp"
+         />
 
     <EditText
         android:id="@+id/etdruppelSpeling"
@@ -171,17 +180,17 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:textSize="12dp"
+         />
 
     <Button
         android:id="@+id/btnStore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Store op Arduino"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_alignTop="@+id/btnDatestore"
+        android:layout_toStartOf="@+id/textView39" />
 
 
 </RelativeLayout>
