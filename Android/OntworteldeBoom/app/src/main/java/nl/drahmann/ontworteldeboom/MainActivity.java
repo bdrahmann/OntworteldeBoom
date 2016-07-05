@@ -51,6 +51,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 import nl.drahmann.about.About;
 import nl.drahmann.mybtlibrary.chat.BluetoothChatService;
@@ -110,6 +111,8 @@ public class MainActivity extends FragmentActivity {
 
     public int pompnr = 0;      // Hulpvariable in case
     public String active_log;   // het activieve logbestand
+    public static boolean cbxSMS = false;   // SMS sturen ja of nee
+    static String txtTelNumber = "";               // telefoonnummer voor SMS
 
     public boolean firstrun = true;
 
@@ -719,17 +722,17 @@ public class MainActivity extends FragmentActivity {
                     // if statement toegevoegd om SMS te kunnen versturen bij BT verbinding verbroken.
                     if (mMessageToast.equals("Device connection was lost")){
                         Toast.makeText(getApplicationContext(),"BT verbinding is verbroken",Toast.LENGTH_SHORT).show();
-                        // stuur sms met bericht
-                        // TODO sms nummer kunnen instellen
-                        try {
-                            SmsManager smsManager = SmsManager.getDefault();
-                            // smsManager.sendTextMessage("+31653169253", null, "BT verbinding met ARDUINO boot is verbroken.", null, null);
-                            smsManager.sendTextMessage("+31641254512", null, "BT verbinding met ARDUINO Velp is verbroken.", null, null);
-                        } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(),
-                                    "SMS faild, please try again later!",
-                                    Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
+                        if (cbxSMS) {   // als SMS verstuurd moet worden
+                           try {    // stuur sms met bericht
+                                SmsManager smsManager = SmsManager.getDefault();
+                                smsManager.sendTextMessage(txtTelNumber, null, "BT verbinding met ARDUINO Velp is verbroken.", null, null);
+                                // smsManager.sendTextMessage("+31641254512", null, "BT verbinding met ARDUINO Velp is verbroken.", null, null);
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(),
+                                        "SMS faild, please try again later!",
+                                        Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
                         }
                     }
                     else {
@@ -812,13 +815,11 @@ public class MainActivity extends FragmentActivity {
                 return true;
             }
 
-            /*
-            case R.id.action_settings: // toon instelscherm
-                Intent i = new Intent(this, PreferenceActivity.class);
+            case R.id.action_settings: { // toon instelscherm
+                Intent i = new Intent(this, NewPreferences.class);
                 startActivity(i);
                 return true;
-            */
-
+            }
 
             case R.id.menu_info: {
                 About.show(( this), getString(R.string.about),

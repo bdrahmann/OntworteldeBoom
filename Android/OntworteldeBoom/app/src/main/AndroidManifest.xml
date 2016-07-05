@@ -31,6 +31,8 @@
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog" />
 
+        <activity android:name="nl.drahmann.ontworteldeboom.NewPreferences"/>
+
     </application>
 
 </manifest>
