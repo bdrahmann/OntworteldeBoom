@@ -39,8 +39,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,6 +73,7 @@ public class MainActivity extends FragmentActivity {
      * Name of the connected device
      */
     private String mConnectedDeviceName = null;
+    private String mMessageToast = null;    // BDR toegevoegd tbv test BT connection lost
 
     /**
      * String buffer for outgoing messages
@@ -712,8 +715,26 @@ public class MainActivity extends FragmentActivity {
                     Toast.makeText(getApplicationContext(), "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
                 case Constants.MESSAGE_TOAST:
-                    Toast.makeText(getApplicationContext(), msg.getData().getString(Constants.TOAST),
-                                Toast.LENGTH_SHORT).show();
+                    mMessageToast = msg.getData().getString(Constants.TOAST);
+                    // if statement toegevoegd om SMS te kunnen versturen bij BT verbinding verbroken.
+                    if (mMessageToast.equals("Device connection was lost")){
+                        Toast.makeText(getApplicationContext(),"BT verbinding is verbroken",Toast.LENGTH_SHORT).show();
+                        // stuur sms met bericht
+                        // TODO sms nummer kunnen instellen
+                        try {
+                            SmsManager smsManager = SmsManager.getDefault();
+                            // smsManager.sendTextMessage("+31653169253", null, "BT verbinding met ARDUINO boot is verbroken.", null, null);
+                            smsManager.sendTextMessage("+31641254512", null, "BT verbinding met ARDUINO Velp is verbroken.", null, null);
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(),
+                                    "SMS faild, please try again later!",
+                                    Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                       Toast.makeText(getApplicationContext(),mMessageToast,Toast.LENGTH_SHORT).show();
+                    }
                     break;
             }
         }
@@ -796,8 +817,8 @@ public class MainActivity extends FragmentActivity {
                 Intent i = new Intent(this, PreferenceActivity.class);
                 startActivity(i);
                 return true;
+            */
 
-             */
 
             case R.id.menu_info: {
                 About.show(( this), getString(R.string.about),
