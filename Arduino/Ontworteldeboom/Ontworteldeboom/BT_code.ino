@@ -100,7 +100,7 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 	}
 		
 	 if (s == 'k') {
-		ReactieOpk(Androidinfo);  // geef de pref file door door aan de smartphone
+		ReactieOpk(Androidinfo);  // geef de pref file door aan de smartphone
 	 }
     
 	 if (s == 'l') {
@@ -520,6 +520,7 @@ void ReactieOpt(String telnummer) {  // lees telefoonnummer uit en sla op
 	delay(20);
 	for (int i = 1; i < 11; i = i + 1) {
 		EEPROM.write(i, telnummer.charAt(i - 1));
+		Serial.println("EEPROM.write is aangeroepen voor telefoonnummer wegschrijven");
 	}
 }
 

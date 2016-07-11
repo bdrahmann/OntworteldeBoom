@@ -244,6 +244,7 @@ void setup() {
 	SMScode = EEPROM.read(0); // SMScode ophalen uit EPROM op plaats 0
 	telefoonnummer = "";
 	telefoonnummer = LeesEprom(1, 10);
+	Serial.print("telefoonnummer uit EPROM =  "); Serial.println(telefoonnummer);
 	Drooglevel1 = LeesEprom(11, 14).toInt();
 	Drooglevel2 = LeesEprom(15, 18).toInt();
 	Drooglevel3 = LeesEprom(19, 22).toInt();

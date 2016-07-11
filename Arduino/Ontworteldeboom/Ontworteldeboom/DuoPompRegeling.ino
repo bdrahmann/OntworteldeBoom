@@ -63,6 +63,7 @@ void DuoPompRegeling() {
 			break;
 		case 8:	// zet het systeem uit
 			// er hoeft niks meer te gebeuren
+			digitalWrite(Pomp2, HIGH);	// en zet voor alle zekerheid pomp2 maar aan
 			break;
 		default: // foutsituatie
 			// TODO geef foutboodschap
