@@ -400,6 +400,7 @@ void ReactieOpk(String prefinfo) {	// lees de Arduino settings uit. Meerdere set
 void SchrijfEprom(int b, int e, String info) {		// schrijf de info in de EPROM
 	for (int i = b; i < e + 1; i = i + 1) {
 		EEPROM.write(i, info.charAt(i - b));
+		delay(20);	// tijdsvertraging nodig
 	}
 }
 
@@ -520,6 +521,7 @@ void ReactieOpt(String telnummer) {  // lees telefoonnummer uit en sla op
 	delay(20);
 	for (int i = 1; i < 11; i = i + 1) {
 		EEPROM.write(i, telnummer.charAt(i - 1));
+		delay(20);	// wegschrijven duurt 3,3 msec
 		Serial.println("EEPROM.write is aangeroepen voor telefoonnummer wegschrijven");
 	}
 }

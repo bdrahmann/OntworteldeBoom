@@ -63,7 +63,7 @@ void DuoPompRegeling() {
 			break;
 		case 8:	// zet het systeem uit
 			// er hoeft niks meer te gebeuren
-			digitalWrite(Pomp2, HIGH);	// en zet voor alle zekerheid pomp2 maar aan
+			// digitalWrite(Pomp2, HIGH);	// en zet voor alle zekerheid pomp2 maar aan. dat geeft problemen met de handregeling
 			break;
 		default: // foutsituatie
 			// TODO geef foutboodschap
