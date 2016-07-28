@@ -516,6 +516,7 @@ void ReactieOps() {  // lees error array SDAction uit
 }  // einde reactieOps
 
 void ReactieOpt(String telnummer) {  // lees telefoonnummer uit en sla op
+	telefoonnummer = telnummer;		// sla telefoonnummer op
 	String tydelijk = "14" + telnummer + "#";
 	Serial3.print(tydelijk);
 	delay(20);
