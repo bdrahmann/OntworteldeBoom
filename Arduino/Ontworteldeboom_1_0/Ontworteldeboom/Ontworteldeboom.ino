@@ -5,6 +5,7 @@
 ** Probleem is echter daar de regensensoren. Die werken na een week al niet meer goed.
 ** Daarom in de USA de Hydreon RG-11 aangeschaft.
 **
+** Eerst de overbodige sensoren eruit gehaald
 **
 ** Credit: The following example was used as a reference
 ** Rui Santos: http://randomnerdtutorials.wordpress.com
@@ -28,8 +29,8 @@
 #include <avr/wdt.h>		// tbv softwarematige reset
 
 String SMScode08 = "De bak van de ontwortelde boom is leeg. HELP!";
-String SMScode10 = "2 sensoren droog; Pomp 1 van ontwortelde boom is uitgeschakeld!";
-String SMScode11 = "2 sensoren droog; Pomp 2 van ontwortelde boom is uitgeschakeld!";
+String SMScode10 = "RG-11 sensor droog; Pomp 1 van ontwortelde boom is uitgeschakeld!";
+String SMScode11 = "RG-11 sensor droog; Pomp 2 van ontwortelde boom is uitgeschakeld!";
 String SMScode12 = "Testbericht Ontwortelde boom";
 String SMScode13 = "Alle sensoren van ontwortelde boom zijn stuk!";
 
@@ -81,8 +82,9 @@ const int Pomp2 = 10;			// Pin 10 is aansturen pomp 2
 int Pig = Pomp1;				// Starten met PominGebruik = pomp1
 
 const int druppel1 = 0;			// Pin A0 is uitlezen druppelsensor1
-const int druppel2 = 1;			// Pin A1 is uitlezen druppelsensor2
-const int druppel3 = 2;			// Pin A2 is uitlezen druppelsensor3
+// const int druppel2 = 1;			// Pin A1 is uitlezen druppelsensor2
+// const int druppel3 = 2;			// Pin A2 is uitlezen druppelsensor3
+const int RG_sensor = 11;		// regensensor RG-11
 
 // Globale waarde pompregeling
 int PompStatus = 0;				// toestand van de Pompstatus
@@ -110,20 +112,20 @@ String Light;
 // Global variables voor Raindrop
 
 int ra = 20;				// aantal samples voor running average
-RunningAverage RA1(ra);		// create object voor running average sensor waarde 1
-RunningAverage RA2(ra);
-RunningAverage RA3(ra);
+// RunningAverage RA1(ra);		// create object voor running average sensor waarde 1
+// RunningAverage RA2(ra);
+// RunningAverage RA3(ra);
 
-int Rain1;		// Uitgelezen waarde raindrop sensor 1
-int Rain2;
-int Rain3;
-int RIG = 1;	// Rain sensor in gebruik
-int Rain1Gem;	// gemiddelde waarde Rain1
-int Rain2Gem;
-int Rain3Gem;
+// int Rain1;		// Uitgelezen waarde raindrop sensor 1
+// int Rain2;
+// int Rain3;
+// int RIG = 1;	// Rain sensor in gebruik
+// int Rain1Gem;	// gemiddelde waarde Rain1
+// int Rain2Gem;
+//int Rain3Gem;
 
 // variabelen voor sensorcontrole
-int Teller = 0;					// aantal malen dat geteld is
+/* int Teller = 0;					// aantal malen dat geteld is
 int FoutTeller1 = 0;			// aantal malen dat een fout geteld is voor sensor 1
 int FoutTeller2 = 0;
 int FoutTeller3 = 0;
@@ -131,10 +133,13 @@ int FoutTeller3 = 0;
 boolean Rain1Pos = false;
 boolean Rain2Pos = false;
 boolean Rain3Pos = false;
+*/
 
+/*
 boolean Rain1_stuk = false;	// geeft aan of druppelsensor 1 stuk is
 boolean Rain2_stuk = false;	// geeft aan of druppelsensor 2 stuk is
 boolean Rain3_stuk = false;	// geeft aan of druppelsensor 3 stuk is
+*/
 boolean Rain_SMS_Gestuurd = false;	// stuur slechts ��n keer een SMS als alle sensoren stuk zijn
 
 int Drooglevel1 = 0;	// onder deze waarde staat er geen of te weinig water op de sensor(50). Via BT aan te passen.
@@ -160,6 +165,8 @@ void setup() {
 	digitalWrite(Pomp1, LOW);		// zet pomp1 uit. De pompen zijn active LOW
 	pinMode(Pomp2, OUTPUT);
 	digitalWrite(Pomp2, LOW);		// zet pomp2 uit
+
+	pinMode(RG_sensor, INPUT);		// digital Pin to INPUT for the RG-11 sensor
 	
 	laagwateroud = digitalRead(VlotterLaag);	// lees de beginstand van de vlotter
 	
@@ -169,11 +176,6 @@ void setup() {
 	Serial.println();
 	PS = "In setup is pomp 1 uitgezet. In setup is pomp 2 uitgezet"; Serial.println(PS);
 	dht.begin();
-
-	// initialiseer de Running Average
-	RA1.clear();
-	RA2.clear();
-	RA3.clear();
 
 	// initialize the SD card
 	// make sure that the default chip select pin is set to
@@ -215,11 +217,11 @@ void setup() {
 	0 = SMS code ja/nee = 1/0
 	1 - 10 = telefoonnummer
 	11 - 14 = Drooglevel1
-	15 - 18 = Drooglevel 2
-	19 - 22 = Drooglevel3
+	15 - 18 = Drooglevel 2  overbodig, maar laat staan
+	19 - 22 = Drooglevel 3	overbodig, maar laat staan
 	23 - 26 = Droogtijd in sec
 	27 - 30 = Druppelspeling
-	31 - 34 = Samples
+	31 - 34 = Samples		overbodig, maar laat staan
 	35 - 38 = Laagwater_delay in sec
 	*/
 
@@ -253,7 +255,8 @@ void loop() {
 					   
 	// LeesRaindropSensor();	// Lees de raindrop sensoren
 	// routine vervangen door onderstaande
-	LeesRaindropSensoropDroog();  // zijn vervanger
+	// LeesRaindropSensoropDroog();  // routine ook vervangen door:
+	LeesRegenSensor();	// de regensensor RG-11
 
 	// ControleerSensoren();	// controleer of de sensoren in orde zijn
 	// routine uitgezet omdat met andere filosofie gewerkt wordt
@@ -288,7 +291,7 @@ int freeRam() {
 	return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }
 
-void softwareReset(uint8_t prescaller) {
+/*void softwareReset(uint8_t prescaller) {
 	// start watchdog with the provided prescaller
 	wdt_enable(prescaller);
 	// wait for the prescaller time to expire
@@ -296,6 +299,7 @@ void softwareReset(uint8_t prescaller) {
 	// the wdt_reset() method
 	while (1) {}
 }
+*/
 
 String LeesEprom(int b, int e) {
 	String result = "";
