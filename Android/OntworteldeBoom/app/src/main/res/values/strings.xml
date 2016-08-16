@@ -39,7 +39,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="about"><![CDATA[This App controls The Uprooted Tree version 2.0 with
-        2 pumps and 3 sensors.<p>
+        2 pumps and 1 digital rain sensor.<p>
         It only works with a dedicated Arduino Program, written by the auteur.<p>
         &#169; 2013 by Jeff Friesen for the about screen.<br>
         &#169; 2016 by BHJ Drahmann for the app.<br>
