@@ -1,6 +1,8 @@
 /* Ontwortelde Boom
 ** versie 1.0
 ** 
+** 20160820
+** 
 ** Uitgangspunt is de Ontwortelde Boom zoals die in juli 2016 in Velp draait.
 ** Probleem is echter daar de regensensoren. Die werken na een week al niet meer goed.
 ** Daarom in de USA de Hydreon RG-11 aangeschaft.
@@ -38,12 +40,12 @@ String SMScode13 = "Alle sensoren van ontwortelde boom zijn stuk!";
 #define LOG_L_INTERVAL  30000  // Light interval 30 sec
 #define LOG_R_INTERVAL  600000 // Raindrop interval 10 min
 uint32_t LOG_LL_INTERVAL = 0;  // SMS LaagWater interval bij start 0
-uint32_t LOG_RD_INTERVAL = 0;   // SMS Raindrop interval bij start 0
+//uint32_t LOG_RD_INTERVAL = 0;   // SMS Raindrop interval bij start 0
 uint32_t syncTimeT = 0; // time of last sync() Temp en Hum
 uint32_t syncTimeL = 0; // time of last sync() Light
-uint32_t syncTimeR = 0; // time of last sync() Raindrop
+//uint32_t syncTimeR = 0; // time of last sync() Raindrop
 uint32_t syncTimeLL = 0; // time of last SMS LaagWater
-uint32_t syncTimeRD = 0; // time of last SMS Raindrop
+//uint32_t syncTimeRD = 0; // time of last SMS Raindrop
 
 RTC_DS1307 RTC; // define the Real Time Clock object
 const int chipSelect = 53; // 10 For Adafruit card, 53 for MEGA
@@ -81,11 +83,6 @@ const int Pomp1 = 9;			// pin 9 is aansturen pomp 1
 const int Pomp2 = 10;			// Pin 10 is aansturen pomp 2
 int Pig = Pomp1;				// Starten met PominGebruik = pomp1
 
-const int druppel1 = 0;			// Pin A0 is uitlezen druppelsensor1
-// const int druppel2 = 1;			// Pin A1 is uitlezen druppelsensor2
-// const int druppel3 = 2;			// Pin A2 is uitlezen druppelsensor3
-const int RG_sensor = 11;		// regensensor RG-11
-
 // Globale waarde pompregeling
 int PompStatus = 0;				// toestand van de Pompstatus
 int PompStatusoud = 0;			// de vorige Pompstatus
@@ -93,7 +90,7 @@ int handpomp1 = 0;		// geeft aan of pomp1 in handmatige status uit/aan is
 int handpomp2 = 0;		// geeft aan of pomp2 in handmatige status uit/aan is
 boolean sw_laagwater = true;	// begin met laagwater
 boolean laagwateroud;			// vorige meting laagwater
-int laagwater_delay = 0;	// tijdsvertraging in laagwater om dender te voorkomen (10000)
+uint32_t laagwater_delay = 0;	// tijdsvertraging in laagwater om dender te voorkomen (10000)
 uint32_t looptijdLL = 0;		// loopt tijdens het testen van de laagwatervlotter
 
 // Globale waarde humidity en temperatuur
@@ -110,46 +107,15 @@ boolean good;  // True if neither sensor is saturated
 String Light;
 
 // Global variables voor Raindrop
-
-int ra = 20;				// aantal samples voor running average
-// RunningAverage RA1(ra);		// create object voor running average sensor waarde 1
-// RunningAverage RA2(ra);
-// RunningAverage RA3(ra);
-
-// int Rain1;		// Uitgelezen waarde raindrop sensor 1
-// int Rain2;
-// int Rain3;
-// int RIG = 1;	// Rain sensor in gebruik
-// int Rain1Gem;	// gemiddelde waarde Rain1
-// int Rain2Gem;
-//int Rain3Gem;
+const int RG_sensor = 11;		// regensensor RG-11
 
 // variabelen voor sensorcontrole
-/* int Teller = 0;					// aantal malen dat geteld is
-int FoutTeller1 = 0;			// aantal malen dat een fout geteld is voor sensor 1
-int FoutTeller2 = 0;
-int FoutTeller3 = 0;
 
-boolean Rain1Pos = false;
-boolean Rain2Pos = false;
-boolean Rain3Pos = false;
-*/
-
-/*
-boolean Rain1_stuk = false;	// geeft aan of druppelsensor 1 stuk is
-boolean Rain2_stuk = false;	// geeft aan of druppelsensor 2 stuk is
-boolean Rain3_stuk = false;	// geeft aan of druppelsensor 3 stuk is
-*/
 boolean Rain_SMS_Gestuurd = false;	// stuur slechts ��n keer een SMS als alle sensoren stuk zijn
-
-int Drooglevel1 = 0;	// onder deze waarde staat er geen of te weinig water op de sensor(50). Via BT aan te passen.
-int Drooglevel2 = 0;
-int Drooglevel3 = 0;
 
 boolean Droog = true;			// variable om droog vast te stellen
 uint32_t Droogtijd = 0;			// tijd om druppelsensoren nat te laten worden; van buiten instelbaar (20000)
 uint32_t DroogtijdLL = 0;		// loopt tijdens het testen van de Droogtijd
-int Druppelspeling = 0;			// toegestane verschil rond het gemiddelde (5). Via BT instelbaar
 
 // Global variable for SMS yes or no
 char SMScode = '0';			//stuur sms bij alarmsituaties, default uit
@@ -216,28 +182,17 @@ void setup() {
 	/* EPROM plaats
 	0 = SMS code ja/nee = 1/0
 	1 - 10 = telefoonnummer
-	11 - 14 = Drooglevel1
-	15 - 18 = Drooglevel 2  overbodig, maar laat staan
-	19 - 22 = Drooglevel 3	overbodig, maar laat staan
-	23 - 26 = Droogtijd in sec
-	27 - 30 = Druppelspeling
-	31 - 34 = Samples		overbodig, maar laat staan
-	35 - 38 = Laagwater_delay in sec
+	11 - 14 = Droogtijd in sec
+	15 - 18 = Laagwater_delay in sec
 	*/
-
+	
 	SMScode = EEPROM.read(0); // SMScode ophalen uit EPROM op plaats 0
 	telefoonnummer = "";
 	telefoonnummer = LeesEprom(1, 10);
 	Serial.print("telefoonnummer uit EPROM =  "); Serial.println(telefoonnummer);
-	Drooglevel1 = LeesEprom(11, 14).toInt();
-	Drooglevel2 = LeesEprom(15, 18).toInt();
-	Drooglevel3 = LeesEprom(19, 22).toInt();
-	Droogtijd = LeesEprom(23, 26).toInt()*1000;
-	Druppelspeling = LeesEprom(27, 30).toInt();
-	int Samples = LeesEprom(31, 34).toInt();	// TODO later kijken of dit wel kan
-	laagwater_delay = LeesEprom(35, 38).toInt()*1000;
-
-
+	Droogtijd = LeesEprom(11, 14).toInt()*1000;
+	laagwater_delay = LeesEprom(15, 18).toInt()*1000;
+	
 	ReactieOpy();	// stuur bepaalde berichten opnieuw
 	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
