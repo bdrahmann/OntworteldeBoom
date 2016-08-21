@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/cbxSMS"
-        android:layout_below="@+id/textView33"
+
         android:layout_alignBaseline="@+id/etdroogTijd"
         android:text="Droogtijd:" />
 
@@ -70,8 +70,7 @@
         android:layout_toEndOf= "@+id/textView37"
         android:layout_below="@+id/etdroogTijd"
         android:layout_alignStart="@+id/ettelNummer"
-        android:layout_alignBaseline="@+id/etdroogLevel1"
-         />
+        />
 
     <TextView
         android:id="@+id/textView39"
