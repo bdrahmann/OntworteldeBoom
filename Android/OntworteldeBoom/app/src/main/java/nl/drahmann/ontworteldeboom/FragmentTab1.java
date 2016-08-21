@@ -110,12 +110,7 @@ public class FragmentTab1 extends Fragment {
         TempC = (TextView)myView.findViewById(R.id.tVTempC);
         Humidity = (TextView)myView.findViewById(R.id.tVHum);
         Lux = (TextView)myView.findViewById(R.id.tVLux);
-        Sensor1 = (TextView)myView.findViewById(R.id.tVSensor1);
-        Sensor2 = (TextView)myView.findViewById(R.id.tVSensor2);
-        Sensor3 = (TextView)myView.findViewById(R.id.tVSensor3);
         Droog1 = (TextView)myView.findViewById(R.id.tVDroog1);
-        Droog2 = (TextView)myView.findViewById(R.id.tVDroog2);
-        Droog3 = (TextView)myView.findViewById(R.id.tVDroog3);
 
         SMSstatus = (TextView)myView.findViewById(R.id.tvSMSStatus);
         SMSbericht = (TextView)myView.findViewById(R.id.tvSMSbericht);

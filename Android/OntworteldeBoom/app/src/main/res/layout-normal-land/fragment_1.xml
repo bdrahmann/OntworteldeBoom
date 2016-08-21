@@ -492,76 +492,13 @@
                 android:text="Sensor 1 :" />
 
             <TextView
-                android:id="@+id/tVSensor1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView8"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@+id/textView8"
-                android:hint="sensor1"/>
-
-            <TextView
                 android:id="@+id/tVDroog1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView8"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/textView8"
                 android:hint="droog1"/>
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView8"
-                android:layout_below="@+id/textView8"
-                android:layout_marginTop="3dp"
-                android:text="Sensor 2 :" />
-
-            <TextView
-                android:id="@+id/tVSensor2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView9"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@+id/textView9"
-                android:hint="sensor2"/>
-
-            <TextView
-                android:id="@+id/tVDroog2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView9"
-                android:layout_marginStart="70dp"
-                android:layout_toEndOf="@+id/textView9"
-                android:hint="droog2"/>
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView8"
-                android:layout_below="@+id/textView9"
-                android:layout_marginTop="3dp"
-                android:text="Sensor 3 :" />
-
-            <TextView
-                android:id="@+id/tVSensor3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@+id/textView1"
-                android:hint="sensor3"/>
-
-            <TextView
-                android:id="@+id/tVDroog3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_marginStart="70dp"
-                android:layout_toEndOf="@+id/textView1"
-                android:hint="droog3"/>
 
             <ToggleButton
                 android:id="@+id/btnhandpomp1"
@@ -579,18 +516,9 @@
                 android:layout_height="wrap_content"
                 android:textOff="Pomp2 Off"
                 android:textOn="Pomp 2 On"
-                android:layout_alignTop="@+id/tVDroog2"
+                android:layout_below="@id/btnhandpomp1"
+                android:layout_marginTop="3dp"
                 android:layout_alignStart="@+id/btnhandpomp1" />
-
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:text="waarde"
-                android:layout_above="@+id/tVSensor1"
-                android:layout_alignStart="@+id/tVSensor1" />
 
 
         </RelativeLayout>

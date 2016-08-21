@@ -161,15 +161,15 @@ public class MainActivity extends FragmentActivity {
 		 * 14 Arduino send telefoonnummer
 		 * 15 Arduino send PompStatus
 		 * 16 Arduino send pompnummer
-		 * 17 Arduino send waarde sensor1
-		 * 18 Arduino send waarde sensor2
-		 * 19 Arduino send waarde sensor3
-		 * 20 Arduino send gemiddelde waarde sensor1
-		 * 21 Arduino send gemiddelde waarde sensor2
-		 * 22 Arduino send gemiddelde waarde sensor3
-		 * 23 Arduino send Drooginfo sensor1
-		 * 24 Arduino send Drooginfo sensor2
-		 * 25 Arduino send Drooginfo sensor3
+		 * 17 Arduino send waarde regensensor
+		 * 18
+		 * 19
+		 * 20
+		 * 21
+		 * 22
+		 * 23
+		 * 24
+		 * 25
 		 * 26 Arduino send vaste gegevens
 		 * 27 Arduino send SMS status
 		 * 28 Arduino send SMS bericht
@@ -402,64 +402,19 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 17:    // set de Sensor 1 info in het veld
-                fragment1.Sensor1.setText(info);
-                fragment2.sensor1 = Integer.parseInt(info);
-                break;
-            case 18:  // set de Sensor 2 info in het veld
-                fragment1.Sensor2.setText(info);
-                fragment2.sensor2 = Integer.parseInt(info);
-                break;
-            case 19: // set de Sensor 3 info in het veld
-                fragment1.Sensor3.setText(info);
-                fragment2.sensor3 = Integer.parseInt(info);
-                fragment2.onSensorChanged();
-                break;
-            case 20:    // set de gem Sensor 1 info in het veld
-
-                break;
-            case 21:  // set de gem Sensor 2 info in het veld
-
-                break;
-            case 22: // set de gem Sensor 3 info in het veld
-
-                break;
-            case 23:    // set de droog 1 info in het veld
                 fragment1.Droog1.setText(info);
+                // fragment2.sensor1 = Integer.parseInt(info); eruit gehaald nu de sensor alleen droog of nat doorgeeft.
                 break;
-            case 24:  // set de droog 2 info in het veld
-                fragment1.Droog2.setText(info);
-                break;
-            case 25: // set de droog 3 info in het veld
-                fragment1.Droog3.setText(info);
-                break;
+
             case 26:    // lees de settings in
                 // opsplitsen info in afzonderlijke velden. Ze zijn gescheiden door een "$"
                 int b = 0;    // beginpositie in string
                 int e;    // eindpositie in string
 
-                // drooglevel1
-                e = info.indexOf("$");
-                fragment3.txtDrooglevel1.setText(info.substring(b, e));
-                // drooglevel2
-                b = e + 1;    // het nieuwe begin
-                e = info.indexOf("$", b);
-                fragment3.txtDrooglevel2.setText(info.substring(b, e));
-                // drooglevel3
-                b = e + 1;    // het nieuwe begin
-                e = info.indexOf("$", b);
-                fragment3.txtDrooglevel3.setText(info.substring(b, e));
                 // droogltijd
-                b = e + 1;    // het nieuwe begin
-                e = info.indexOf("$", b);
+                e = info.indexOf("$");
                 fragment3.txtDroogtijd.setText(info.substring(b, e));
-                // druppelspeling
-                b = e + 1;    // het nieuwe begin
-                e = info.indexOf("$", b);
-                fragment3.txtDruppelspeling.setText(info.substring(b, e));
-                // samples
-                b = e + 1;    // het nieuwe begin
-                e = info.indexOf("$", b);
-                fragment3.txtSamples.setText(info.substring(b, e));
+
                 // vlotterdelay
                 b = e + 1;    // het nieuwe begin
                 fragment3.txtVlotterdelay.setText(info.substring(b));

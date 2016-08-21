@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:keepScreenOn="true"
     android:orientation="vertical"
-    tools:context=".MainActivity$PlaceholderFragment">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:gravity="center"
             android:textColor="#000"
             android:id="@+id/TV01"
-            android:layout_marginLeft="1dp"
+            android:layout_marginStart="1dp"
             android:layout_width="wrap_content"
             android:background="#009688"
             android:padding="24dp"
@@ -34,7 +34,7 @@
             android:textColor="#000"
             android:id="@+id/TV02"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV01"
+            android:layout_toEndOf="@+id/TV01"
             android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
@@ -46,7 +46,7 @@
             android:textColor="#000"
             android:id="@+id/TV03"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV02"
+            android:layout_toEndOf="@+id/TV02"
             android:background="#009688"
             android:padding="24dp"
             android:alpha="100"
@@ -59,7 +59,7 @@
             android:textColor="#000"
             android:id="@+id/TV04"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV03"
+            android:layout_toEndOf="@+id/TV03"
             android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
@@ -75,7 +75,6 @@
             android:padding="24dp"
             android:alpha="100"
             android:layout_alignTop="@+id/TV04"
-            android:layout_toRightOf="@+id/TV04"
             android:layout_toEndOf="@+id/TV04"/>
 
         <TextView
@@ -85,7 +84,7 @@
             android:textColor="#000"
             android:id="@+id/TV06"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV05"
+            android:layout_toEndOf="@+id/TV05"
             android:background="#009688"
             android:padding="24dp"
             android:alpha="100"/>
@@ -101,7 +100,6 @@
             android:padding="24dp"
             android:alpha="100"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/TV06"
             android:layout_toEndOf="@+id/TV06"/>
 
         <TextView
@@ -115,7 +113,6 @@
             android:padding="24dp"
             android:alpha="100"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/TV07"
             android:layout_toEndOf="@+id/TV07"/>
 
         <TextView
@@ -129,7 +126,7 @@
             android:layout_below="@+id/TV01"
             android:layout_alignBaseline="@+id/TVO02"
             android:layout_alignBottom="@+id/TVO02"
-            android:layout_alignLeft="@+id/TV01" />
+            android:layout_alignStart="@+id/TV01" />
 
         <TextView
             android:text="Pomp start"
@@ -138,7 +135,7 @@
             android:textColor="#000"
             android:id="@+id/TVO02"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV01"
+            android:layout_toEndOf="@+id/TV01"
             android:layout_below="@+id/TV02"
             android:padding="5dp"/>
 
@@ -147,7 +144,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/TV02"
+            android:layout_toEndOf="@+id/TV02"
             android:layout_below="@+id/TV03"
             android:padding="5dp"
             android:visibility="invisible" />
@@ -159,7 +156,7 @@
             android:textColor="#000"
             android:id="@+id/TVO03"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV02"
+            android:layout_toEndOf="@+id/TV02"
             android:layout_below="@+id/TV03"
             android:padding="5dp"/>
 
@@ -169,7 +166,7 @@
             android:textColor="#000"
             android:id="@+id/TVO04"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV03"
+            android:layout_toEndOf="@+id/TV03"
             android:layout_below="@+id/TV04"
             android:padding="5dp"/>
 
@@ -180,7 +177,7 @@
             android:textColor="#000"
             android:id="@+id/TVO05"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV04"
+            android:layout_toEndOf="@+id/TV04"
             android:layout_below="@+id/TV05"
             android:padding="5dp"/>
 
@@ -191,7 +188,7 @@
             android:textColor="#000"
             android:id="@+id/TVO06"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV05"
+            android:layout_toEndOf="@+id/TV05"
             android:layout_below="@+id/TV06"
             android:padding="5dp"/>
 
@@ -202,7 +199,7 @@
             android:textColor="#000"
             android:id="@+id/TVO07"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV06"
+            android:layout_toEndOf="@+id/TV06"
             android:layout_below="@+id/TV07"
             android:padding="5dp"/>
 
@@ -213,7 +210,7 @@
             android:textColor="#000"
             android:id="@+id/TVO08"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/TV07"
+            android:layout_toEndOf="@+id/TV07"
             android:layout_below="@+id/TV08"
             android:padding="5dp"/>
 
@@ -231,7 +228,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textSize="10sp"
             android:text="schijf:" />
 
@@ -241,8 +238,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:hint="schijf"
-            android:layout_alignLeft="@+id/tvBestand"
-            android:layout_toRightOf="@+id/textView5"
+            android:layout_alignStart="@+id/tvBestand"
             android:layout_toEndOf="@+id/textView5"
             android:layout_alignBottom="@+id/textView5" />
 
@@ -250,7 +246,7 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView5"
+            android:layout_alignStart="@+id/textView5"
             android:layout_below="@+id/textView5"
             android:textSize="10sp"
             android:text="bestand:" />
@@ -261,10 +257,8 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:hint="bestand"
-            android:layout_toRightOf="@+id/textView6"
             android:layout_toEndOf="@+id/textView6"
             android:layout_alignBottom="@+id/textView6"
-            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp" />
 
         <TextView
@@ -272,8 +266,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView5"
-            android:layout_marginLeft="120dp"
+            android:layout_toEndOf="@+id/textView5"
+            android:layout_marginStart="120dp"
             android:layout_alignBottom="@+id/textView5"
             android:text="stuur SMS:" />
 
@@ -282,9 +276,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView10"
             android:layout_toEndOf="@+id/textView10"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_alignBottom="@+id/textView5"
             android:hint="SMS ja/nee" />
 
@@ -293,8 +286,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView10"
-            android:layout_alignLeft="@+id/textView10"
+            android:layout_toEndOf="@+id/textView10"
+            android:layout_alignStart="@+id/textView10"
             android:layout_alignBottom="@+id/textView6"
             android:text="Telefoonnr:" />
 
@@ -303,9 +296,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toRightOf="@+id/textView11"
             android:layout_toEndOf="@+id/textView11"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_alignBottom="@+id/textView6"
             android:hint="nummer" />
 
@@ -314,8 +306,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/tvADatum"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/tvADatum"
             android:layout_alignBottom="@+id/textView5"
             android:text="Arduino datum:" />
 
@@ -325,8 +317,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_alignBottom="@+id/textView5"
             android:hint="datum" />
 
@@ -335,8 +326,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_toLeftOf="@+id/tvATijd"
-            android:layout_alignLeft="@+id/textView13"
+            android:layout_toStartOf="@+id/tvATijd"
+            android:layout_alignStart="@+id/textView13"
             android:layout_alignBottom="@+id/textView6"
             android:text="Arduino tijd:" />
 
@@ -345,7 +336,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:layout_alignLeft="@+id/tvADatum"
+            android:layout_alignStart="@+id/tvADatum"
             android:layout_below="@+id/tvADatum"
             android:layout_alignBottom="@+id/textView6"
             android:hint="tijd" />
@@ -371,7 +362,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="Waterniveau :" />
 
             <TextView
@@ -380,8 +371,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/textView2"
                 android:layout_alignBottom="@+id/textView2"
-                android:layout_marginLeft="19dp"
-                android:layout_toRightOf="@+id/textView2"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/textView2"
                 android:hint="niveau"
                 android:textColor="#000" />
 
@@ -400,9 +391,9 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:layout_alignLeft="@id/pbDelay"
+                android:layout_alignStart="@id/pbDelay"
                 android:layout_alignTop="@id/pbDelay"
-                android:layout_alignRight="@id/pbDelay"
+                android:layout_alignEnd="@id/pbDelay"
                 android:layout_alignBottom="@id/pbDelay"
                 android:visibility="invisible"
                 android:gravity="center"
@@ -422,8 +413,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView4"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/textView4"
                 android:hint="temperatuur"/>
 
             <TextView
@@ -440,8 +431,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView3"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/textView4"
                 android:hint="humidity"/>
 
             <TextView
@@ -458,19 +449,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView7"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/textView4"
                 android:hint="lux"/>
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView7"
-                android:layout_marginTop="10dp"
-                android:layout_alignLeft="@+id/tVLux"
-                android:textSize="10sp"
-                android:text="waarde"  />
 
             <TextView
                 android:id="@+id/textView8"
@@ -482,76 +463,14 @@
                 android:text="Sensor 1 :" />
 
             <TextView
-                android:id="@+id/tVSensor1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView8"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
-                android:hint="sensor1"/>
-
-            <TextView
                 android:id="@+id/tVDroog1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView8"
-                android:layout_marginLeft="120dp"
-                android:layout_toRightOf="@+id/textView8"
+                android:layout_alignStart="@id/tVLux"
+                android:layout_toEndOf="@+id/textView8"
                 android:hint="droog1"/>
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView2"
-                android:layout_below="@+id/textView8"
-                android:layout_marginTop="15dp"
-                android:text="Sensor 2 :" />
-
-            <TextView
-                android:id="@+id/tVSensor2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView9"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
-                android:hint="sensor2"/>
-
-            <TextView
-                android:id="@+id/tVDroog2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView9"
-                android:layout_marginLeft="120dp"
-                android:layout_toRightOf="@+id/textView9"
-                android:hint="droog2"/>
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView2"
-                android:layout_below="@+id/textView9"
-                android:layout_marginTop="15dp"
-                android:text="Sensor 3 :" />
-
-            <TextView
-                android:id="@+id/tVSensor3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView4"
-                android:hint="sensor3"/>
-
-            <TextView
-                android:id="@+id/tVDroog3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_marginLeft="120dp"
-                android:layout_toRightOf="@+id/textView1"
-                android:hint="droog3"/>
 
         </RelativeLayout>
 
@@ -567,7 +486,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="SMS status:" />
 
             <TextView
@@ -575,9 +494,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView40"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/textView40"
-
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/textView40"
                 android:hint="SMS status" />
 
             <TextView
@@ -586,7 +504,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView40"
                 android:layout_marginTop="10dp"
-                android:layout_alignLeft="@+id/textView40"
+                android:layout_alignStart="@+id/textView40"
                 android:text="SMS inhoud:" />
 
             <TextView
@@ -595,7 +513,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvSMSStatus"
                 android:layout_marginTop="10dp"
-                android:layout_alignLeft="@+id/tvSMSStatus"
+                android:layout_alignStart="@+id/tvSMSStatus"
                 android:hint="SMS bericht"/>
 
             <TextView
