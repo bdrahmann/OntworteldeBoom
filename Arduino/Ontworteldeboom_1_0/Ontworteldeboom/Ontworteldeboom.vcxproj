@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C5F80730-F44F-4478-BDAE-6634EFC2CA88}</ProjectGuid>
+    <RootNamespace>$safeprojectname$</RootNamespace>
+    <ProjectName>Ontworteldeboom</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>
+    </PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>
+    </PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Documents and Settings\Bernard\Documents\Arduino\libraries\MemoryFree;C:\arduino-1.6.10\libraries\SD\src;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries\SPI\src;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries\EEPROM\src;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries\Wire\src;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\RTClib;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\DHT;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\SFE_TSL2561;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\Streaming;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\RunningAverage;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\DHT\utility;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries\EEPROM\src\utility;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\MemoryFree\utility;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\RTClib\utility;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\RunningAverage\utility;C:\arduino-1.6.10\libraries\SD\src\utility;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\SFE_TSL2561\utility;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries\SPI\src\utility;C:\Documents and Settings\Bernard\Documents\Arduino\libraries\Streaming\utility;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries\Wire\src\utility;C:\arduino-1.6.10\libraries;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\libraries;C:\Documents and Settings\Bernard\Documents\Arduino\libraries;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\cores\arduino;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.14\variants\mega;C:\Users\Bernard\Documents\GitHub\OntworteldeBoom\Arduino\Ontworteldeboom_1_0\Ontworteldeboom;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.3-arduino2/avr/include/;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.3-arduino2//avr/include/avr/;C:\Users\Bernard\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.3-arduino2/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>C:\Users\Bernard\Documents\GitHub\OntworteldeBoom\Arduino\Ontworteldeboom_1_0\Ontworteldeboom\__vm\.Ontworteldeboom.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <PreprocessorDefinitions>__AVR_ATmega2560__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=106010;ARDUINO_AVR_MEGA2560;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="VisualMicro" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BT_code.ino" />
+    <None Include="DuoPompRegeling.ino" />
+    <None Include="Laagwater.ino" />
+    <None Include="LeesLight.ino" />
+    <None Include="Lees_Hum_en_Temp.ino" />
+    <None Include="Ontworteldeboom.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="SD_card_modules.ino" />
+    <None Include="SMS_afhandeling.ino" />
+    <None Include="VerwerkSensoren.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="__vm\.Ontworteldeboom.vsarduino.h" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties arduino.upload.port="COM10" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
