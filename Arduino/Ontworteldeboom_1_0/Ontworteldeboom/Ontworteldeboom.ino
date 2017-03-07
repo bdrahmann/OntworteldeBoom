@@ -14,7 +14,7 @@
 **
 ** aangepast door BDR
 ** datum: 20151120
-** voor project ontwortelde kerstboom
+** 
 **
 **
 */
