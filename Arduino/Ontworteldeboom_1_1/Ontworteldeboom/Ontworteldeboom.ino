@@ -42,7 +42,7 @@ String SMScode13 = "Alle sensoren van ontwortelde boom zijn stuk!";
 #define LOG_T_INTERVAL  60000 // Temp/Hum interval 60 sec
 #define LOG_L_INTERVAL  30000  // Light interval 30 sec
 #define LOG_R_INTERVAL  600000 // Raindrop interval 10 min
-#define LOG_D_INTERVAL  60000	// Droog interval 12 minuten
+#define LOG_D_INTERVAL  600000	// Droog interval 12 minuten
 
 uint32_t LOG_LL_INTERVAL = 0;  // SMS LaagWater interval bij start 0
 //uint32_t LOG_RD_INTERVAL = 0;   // SMS Raindrop interval bij start 0

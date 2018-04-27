@@ -7,7 +7,7 @@ code	omschrijving				SMS	SD
 03
 04		raindropwaarde 1			x	04
 05		
-06		
+06		reset	ja
 07		
 08		bak is leeg					08	08
 09		light						09	09	TODO wordt dit nog gebruikt?
