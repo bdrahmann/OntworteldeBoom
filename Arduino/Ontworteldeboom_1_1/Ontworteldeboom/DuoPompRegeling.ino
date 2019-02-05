@@ -15,13 +15,15 @@ void DuoPompRegeling() {
 		break;
 	case 1:	// laagwater testen
 		digitalWrite(Pig, LOW);	// zet de PompInGebruik uit
-		PS = "In DuoPompRegeling, Status 1 is pomp " + String(Pig - 8) + " uitgezet."; Serial.println(PS);
+		PS = "In DuoPompRegeling, Status 1 is pomp " + String(Pig - 8) + " uitgezet."; 
+		//Serial.println(PS);
 		if (sw_laagwater == false)
 			PompStatus = 2;
 		break;
 	case 2:	// zet de PompInGebruik aan
 		digitalWrite(Pig, HIGH);
-		PS = "In DuoPompRegeling, Status 2 is pomp " + String(Pig - 8) + " aangezet."; Serial.println(PS);
+		PS = "In DuoPompRegeling, Status 2 is pomp " + String(Pig - 8) + " aangezet."; 
+		//Serial.println(PS);
 		// start de tijd om de boom de tijd te geven nat te worden
 		DroogtijdLL = millis();		// start de tijd om nat te worden
 		PompStatus = 3;
@@ -43,7 +45,8 @@ void DuoPompRegeling() {
 		break;
 	case 5:	// zet de Pig uit
 		digitalWrite(Pig, LOW);	// zet de PompInGebruik uit
-		PS = "In DuoPompRegeling, Status 5 is pomp " + String(Pig - 8) + " uitgezet."; Serial.println(PS);
+		PS = "In DuoPompRegeling, Status 5 is pomp " + String(Pig - 8) + " uitgezet."; 
+		//Serial.println(PS);
 		looptijdLL = 0;			// zet de looptijd laagwater weer op 0
 		PompStatus = 6;
 		break;
@@ -71,7 +74,7 @@ void DuoPompRegeling() {
 	}	// einde switch case
 
 	String tydelijk = "Pompstatus = " + String(PompStatus) + " en pomp in gebruik = " + String(Pig - 8);
-	Serial.println(tydelijk);
+	//Serial.println(tydelijk);
 
 
 

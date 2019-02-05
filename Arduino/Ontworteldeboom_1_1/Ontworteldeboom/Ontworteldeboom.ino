@@ -9,8 +9,12 @@
 **
 ** Eerst de overbodige sensoren eruit gehaald
 ** 20170330 gebasseerd op versie 1.0
-** aanpassing tbv aan/uit regeling op pomp1
+** aanpassing tbv aan/uit regeling op pomp1 12 minuten vertraging
 ** aanpassing in verwerksensoren.ino
+**
+** aanpassing op 20180430:
+** via GPRS status pomp 2 uitlezen
+** via GPRS arduino resetten
 **
 ** Credit: The following example was used as a reference
 ** Rui Santos: http://randomnerdtutorials.wordpress.com
@@ -18,7 +22,7 @@
 ** aangepast door BDR
 ** datum: 20151120
 ** 
-**
+** wijziging om github te testen
 **
 */
 #include <MemoryFree.h>
@@ -38,11 +42,14 @@ String SMScode10 = "RG-11 sensor droog; Pomp 1 van ontwortelde boom is uitgescha
 String SMScode11 = "RG-11 sensor droog; Pomp 2 van ontwortelde boom is uitgeschakeld!";
 String SMScode12 = "Testbericht Ontwortelde boom";
 String SMScode13 = "Alle sensoren van ontwortelde boom zijn stuk!";
+String SMScode14 = "Status pomp2 = AAN";
+String SMScode15 = "Status pomp2 = UIT";
+String SMScode16 = "Arduino BOOM wordt gereset";
 
 #define LOG_T_INTERVAL  60000 // Temp/Hum interval 60 sec
 #define LOG_L_INTERVAL  30000  // Light interval 30 sec
-#define LOG_R_INTERVAL  600000 // Raindrop interval 10 min
-#define LOG_D_INTERVAL  600000	// Droog interval 12 minuten
+#define LOG_R_INTERVAL  60000 // Raindrop interval 10 min
+#define LOG_D_INTERVAL  60000	// Droog interval 12 minuten
 
 uint32_t LOG_LL_INTERVAL = 0;  // SMS LaagWater interval bij start 0
 //uint32_t LOG_RD_INTERVAL = 0;   // SMS Raindrop interval bij start 0
@@ -86,7 +93,7 @@ const int DHTPIN = 2; // gele draad aan pin digital 2
 DHT dht(DHTPIN, DHTTYPE); // dht is DHT object
 
 const int VlotterLaag = 8;      // pin 8 is alarmniveau: geeft signaal als HIGH wordt gemeten
-const int Pomp1 = 9;			// pin 9 is aansturen pomp 1
+const int Pomp1 = 3;			// pin 9 is aansturen pomp 1
 const int Pomp2 = 10;			// Pin 10 is aansturen pomp 2
 int Pig = Pomp1;				// Starten met PominGebruik = pomp1
 
@@ -128,8 +135,11 @@ uint32_t DroogtijdLL = 0;		// loopt tijdens het testen van de Droogtijd
 char SMScode = '0';			//stuur sms bij alarmsituaties, default uit
 String telefoonnummer = "";
 boolean bericht_gestuurd = false;	// om te voorkomen dat sms testbericht meer dan ��n per minuut gestuurd wordt
-const int Simpower = 7;		// voor de sim900 kaart Shield B-v1.1
-// const int Simpower = 9;  // voor de "oude" Sim900 kaart
+// const int Simpower = 7;		// voor de sim900 kaart Shield B-v1.1
+const int Simpower = 9;			// voor de "oude" Sim900 kaart en de KEYESTUDIO kaart
+String textOpnieuw = "";	// tekst voor start GPRS module
+String textMessage = "";	// input en output voor GPRS
+String SMSstatus = "";
 
 void setup() {
 	String PS;		// is de PrintString
@@ -200,6 +210,36 @@ void setup() {
 	Droogtijd = LeesEprom(11, 14).toInt()*1000;
 	laagwater_delay = LeesEprom(15, 18).toInt()*1000;
 	
+	// start GPRS module en log on
+	// Automatically turn on the shield
+	startModem(textOpnieuw);
+
+	if (textMessage.indexOf("DOWN") >= 0) {	// als modem uit is gezet
+		Serial.println("modem is uitgezet. Opnieuw opstarten");
+		textOpnieuw = "opnieuw ";
+		startModem(textOpnieuw);
+	}
+
+	// Give time to your GSM shield log on to network
+	Serial.print("GPRS modem logt on...");
+	delay(20000);
+	Serial.println("GPRS modem ready...");
+	SMSstatus = "verbonden met netwerk";
+	Serial.println(SMSstatus);
+	Serial3.print("27" + SMSstatus + "#");
+	Serial.println("modem wordt in SMS mode gezet");
+	// AT command to set Serial1 to SMS mode
+	Serial1.print("AT+CMGF=1\r");
+	delay(100);
+	// Set module to send SMS data to serial out upon receipt 
+	Serial1.print("AT+CNMI=2,2,0,0,0\r");
+	delay(100);
+	textMessage = Serial1.readString();
+	Serial.print("textMessage: ");
+	Serial.println(textMessage);
+	delay(10);
+
+	
 	ReactieOpy();	// stuur bepaalde berichten opnieuw
 	Sendkode29(laagwater_delay, laagwater_delay);	// stuur de status "100" om progressbar uit te zetten
 	Sendkode30(Droogtijd, Droogtijd);	// stuur de status 100% om de progressbar uit te zetten
@@ -207,7 +247,22 @@ void setup() {
 	
 }  // einde Setup
 
+void startModem(String opnieuw) {
+	Serial.print("GPRS modem wordt " + opnieuw + "gestart...");
+	digitalWrite(9, HIGH);
+	delay(1000);
+	digitalWrite(9, LOW);
+	delay(5000);
+	Serial.println("GPRS modem is " + opnieuw + "gestart...");
+	textMessage = Serial1.readString();
+	Serial.print("textMessage: ");
+	Serial.println(textMessage);
+	delay(10);
+}
+
 void loop() {
+
+	LeesSMS();			// kijk of er sms'jes gestuurd zijn
 
 	DuoPompRegeling();	// regelt met twee pompen
 						

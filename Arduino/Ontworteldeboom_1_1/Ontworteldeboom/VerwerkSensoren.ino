@@ -39,7 +39,7 @@ void LeesRegenSensor() {		// de routine om regensensor RG-11 uit te lezen
 			Serial.println(" de oorspronkelijke code");
 			Droog = true;
 			SchrijfRaindrop(Droog);
-			Serial.println("RG-11 is: DROOG ");
+			//Serial.println("RG-11 is: DROOG ");
 		}
 	}
 	else		// er staat water op de sensor
@@ -47,7 +47,7 @@ void LeesRegenSensor() {		// de routine om regensensor RG-11 uit te lezen
 		sw_Droog = false;// reset de Droog parameters
 		Droog = false;
 		SchrijfRaindrop(Droog);
-		Serial.println("RG-11 is: NAT ");
+		//Serial.println("RG-11 is: NAT ");
 	}
 	
 

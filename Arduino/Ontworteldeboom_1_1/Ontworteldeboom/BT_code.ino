@@ -128,7 +128,7 @@ void ReadBT() {          // Lees de BlueTooth input. en einde = #
 		}
 
 		if (s == 'w') {		// zet pomp 1 of 2 handmatig aan of uit
-			// ReactieOpw(Androidinfo); uitgezet in overleg met Daan
+			ReactieOpw(Androidinfo); // is ooit uitgezet in overleg met Daan
 		}
 
 		if (s == 'y') {		// stuur bepaalde gegevens nogmaals
