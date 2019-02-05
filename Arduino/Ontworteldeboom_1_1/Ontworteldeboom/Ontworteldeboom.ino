@@ -23,8 +23,10 @@
 ** datum: 20151120
 ** 
 ** wijziging om github te testen
+** versie van augustus 2018
 **
 */
+
 #include <MemoryFree.h>
 #include <SD.h>				// SDcard lib
 #include <SPI.h>
