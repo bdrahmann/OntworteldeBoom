@@ -1,6 +1,6 @@
 /* Ontwortelde Boom
 ** versie 0.3
-** 
+** test github
 ** uitgangspunt: Kerstboom02.2
 ** maar geschikt voor app: ontwortelde boom dat weer gebaseerd is op BTChat.
 ** Betere BT communicatie
